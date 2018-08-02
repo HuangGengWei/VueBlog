@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 let OrmBlog = require('../orm/OrmBlog');
-let OrmUser = require('../Orm/OrmUser');
+let OrmUser = require('../orm/OrmUser');
 
 router.post('/AddBlog',OrmUser.CheckSession,(req,res)=>{
   let params = req.body;

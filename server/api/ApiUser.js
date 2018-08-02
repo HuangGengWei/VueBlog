@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const sha1 = require('sha1')
-let OrmUser = require('../Orm/OrmUser');
+let OrmUser = require('../orm/OrmUser');
 
 var jsonWrite = function(res, ret) {
   if(typeof ret === 'undefined') {
