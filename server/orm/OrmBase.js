@@ -1,4 +1,4 @@
-let conn = require('./mysql');
+let query = require('./mysql');
 let Q = require('q');
 
 module.exports = {
@@ -48,7 +48,7 @@ module.exports = {
     }
     let defer = Q.defer();
     //console.log('第一条sql',sql);
-    conn.query(sql,function(err,result){
+    query(sql,function(err,result){
       //console.log('第一个Result',err,result);
       if (err){
         defer.reject(new Error(err));
@@ -58,7 +58,7 @@ module.exports = {
 
         if (paramageNumber > 0 && paramageSize > 0 && max>0){
           let sql = `SELECT COUNT(*) AS total ${from_s} ${where_s} ${group_s}`;
-          conn.query(sql,function(err,result){
+          query(sql,function(err,result){
             //console.log('第二条sql结果',result);
             if (err){
               defer.reject(new Error(err));

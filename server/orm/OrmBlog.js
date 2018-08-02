@@ -1,4 +1,4 @@
-let conn = require('./mysql');
+let query = require('./mysql');
 let Q = require('q');
 let OrmBase = require('./OrmBase');
 const moment = require('moment-timezone');//for datetime
@@ -11,7 +11,7 @@ module.exports = {
     let defer = Q.defer();
     let sql = 'INSERT INTO '+this.T_NAME+' (b_title,b_content,b_author,b_pv,b_comment,create_time,status) VALUES ("'+params.title+'","'+this.htmlspecialchars(params.content)+'","hwg","0","0",NOW(),"1");';
     //console.log('sql',sql);
-    conn.query(sql,function(err,rst){
+    query(sql,function(err,rst){
       //console.log('插入数据返回结果',rst);
       if (err){
         defer.reject(new Error(err));
@@ -46,7 +46,7 @@ module.exports = {
     let defer = Q.defer();
     let sql = 'UPDATE '+this.T_NAME+' SET b_title="'+params.title+'",b_content="'+this.htmlspecialchars(params.content)+'",update_time=NOW() WHERE id='+params.id+';';
     //console.log('sql',sql);
-    conn.query(sql,function(err,rst){
+    query(sql,function(err,rst){
       //console.log('更新数据返回结果',rst);
       if (err){
         defer.reject(new Error(err));
@@ -63,7 +63,7 @@ module.exports = {
   DeleteBlog:function(params){
     //console.log('DeleteBlog',params);
     let defer = Q.defer();
-    conn.query('UPDATE '+this.T_NAME+' SET status=0,update_time=NOW() WHERE id='+params.id+';',function(err,rst){
+    query('UPDATE '+this.T_NAME+' SET status=0,update_time=NOW() WHERE id='+params.id+';',function(err,rst){
       //console.log('更新数据返回结果',rst);
       if (err){
         defer.reject(new Error(err));
@@ -96,7 +96,7 @@ module.exports = {
   },
   Blog:function(params){
     let defer = Q.defer();
-    conn.query('SELECT * FROM '+this.T_NAME+' WHERE id='+params.id+';',function(err,rst){
+    query('SELECT * FROM '+this.T_NAME+' WHERE id='+params.id+';',function(err,rst){
       console.log('BLOG',rst);
       if (err){
         defer.reject(new Error(err));

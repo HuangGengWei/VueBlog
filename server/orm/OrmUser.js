@@ -1,4 +1,4 @@
-let conn = require('./mysql');
+let query = require('./mysql');
 let Q = require('q');
 
 module.exports={
@@ -6,7 +6,7 @@ module.exports={
   Login:function(param){
     //return {'STS':'OK'};
     let deferred = Q.defer();
-    conn.query('SELECT * FROM '+this.T_NAME+' WHERE u_name="'+param.name+'" AND u_password="'+param.password+'";',function(err, rst){
+    query('SELECT * FROM '+this.T_NAME+' WHERE u_name="'+param.name+'" AND u_password="'+param.password+'";',function(err, rst){
       console.log('rst',rst,'err',err);
       if (err){
         deferred.reject(new Error(err));
@@ -23,7 +23,8 @@ module.exports={
   CheckSession:function(req,res,next){
     if (!req.session.user) {
       res.json({'STS':'KO','errcode':444});
+    }else{
+      next()
     }
-    next()
   }
 }
