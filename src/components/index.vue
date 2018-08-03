@@ -24,14 +24,14 @@
           </li>
         </ul>
         <div class="about-me">
-          <a href="https://github.com/bjw1234" class="sf" target="_blank">
-            <img src="#" alt="">
+          <a href="https://github.com/HuangGengWei" class="sf" target="_blank">
+            <img src="../assets/github.jpg" alt="">
           </a>
-          <a href="#" class="github" target="_blank">
-            <img src="#" alt="">
+          <a href="https://segmentfault.com/u/xiaochengmujiang" class="github" target="_blank">
+            <img src="../assets/sf.jpg" alt="">
           </a>
-          <a href="#" class="email" target="_blank">
-            <img src="#" alt="">
+          <a href="mailto:774921756@qq.com" class="email" target="_blank">
+            <img src="../assets/qq.jpg" alt="">
           </a>
         </div>
       </div>
