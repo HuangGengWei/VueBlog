@@ -31,5 +31,5 @@ app.use('/api/ApiBlog',ApiBlog);
 
 
 // 监听端口
-app.listen(config.port);
+app.listen(config.port,'0.0.0.0');
 console.log('success listen at port:'+config.port);
