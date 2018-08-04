@@ -29,6 +29,37 @@ const ApiBlog = require('./api/ApiBlog');
 app.use('/api/ApiUser',ApiUser);
 app.use('/api/ApiBlog',ApiBlog);
 
+//使用node.js做反向代理服务器，
+var config = require("./webpack.config.js");
+var webpack = require("webpack")
+var webpackDevServer=require("webpack-dev-server")
+
+config.entry.unshift("webpack-dev-server/client?http://localhost:80", "webpack/hot/dev-server");
+var compiler = webpack(config);
+
+var server = new webpackDevServer(compiler, {
+  contentBase: "build",
+  hot: true,
+  inline: true,
+  historyApiFallback: true,
+  proxy: {
+    // '/*': {
+    //   target: 'loaclhost:3000/',
+    //   secure: false
+    // },
+    '/api': {
+      target: 'http://localhost:3000/api/',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': ''
+      }
+    }
+  }
+});
+server.listen(80);
+//反向代理设置结束
+
+
 // 监听端口
 app.listen(config.port);
 console.log('success listen at port:'+config.port);
