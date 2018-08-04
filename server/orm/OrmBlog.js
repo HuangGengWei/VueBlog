@@ -6,6 +6,9 @@ const moment = require('moment-timezone');//for datetime
 
 module.exports = {
   T_NAME:'b_blog',
+  Test:function(){
+    return {'STS':'OK','message':'成功连接'};
+  },
   AddBlog:function(params){
     //console.log('AddBlog',params);
     let defer = Q.defer();

@@ -29,12 +29,5 @@ const ApiBlog = require('./api/ApiBlog');
 app.use('/api/ApiUser',ApiUser);
 app.use('/api/ApiBlog',ApiBlog);
 
-
-// 监听端口
-var http = require('http');
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-})
-app.listen(config.port,'0.0.0.0');
+app.listen(config.port);
 console.log('success listen at port:'+config.port);

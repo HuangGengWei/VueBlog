@@ -4,7 +4,7 @@ let OrmBlog = require('../orm/OrmBlog');
 let OrmUser = require('../orm/OrmUser');
 
 router.post('/Test',(req,res)=>{
-  res.json({'STS':'OK','message':'成功连接'});
+  res.json(OrmBlog.Test());
 })
 
 
