@@ -3,6 +3,11 @@ var router = express.Router();
 let OrmBlog = require('../orm/OrmBlog');
 let OrmUser = require('../orm/OrmUser');
 
+router.post('/Test',(req,res)=>{
+  res.json({'STS':'OK','message':'成功连接'});
+})
+
+
 router.post('/AddBlog',OrmUser.CheckSession,(req,res)=>{
   let params = req.body;
   OrmBlog.AddBlog(params).then(rst=>{
