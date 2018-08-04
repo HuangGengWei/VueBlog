@@ -87,7 +87,7 @@ module.exports = {
         rst.rows[i].create_time = this.getTimeStr(rst.rows[i].create_time);
       }
       return rst;
-    })
+    }).catch(function (err) {console.log(err);});
   },
   Blog:function(params){
     //console.log('params',params);

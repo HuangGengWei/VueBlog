@@ -45,7 +45,7 @@ var query = function(sql){
           });
         });
       }
-    }).catch(function (err) {console.log(err);});
+    })
   })
 }
 module.exports=query;
