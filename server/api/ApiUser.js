@@ -17,8 +17,8 @@ var jsonWrite = function(res, ret) {
 // 增加用户接口
 router.post('/addUser',OrmUser.CheckSession,(req, res) => {
   var params = req.body;
-  console.log(params);
-  conn.query('insert into user(id, name, age) values (0, ?, ?)', [params.username, params.age], function(err, result) {
+  // console.log(params);
+  query('insert into user(id, name, age) values (0, ?, ?)', [params.username, params.age], function(err, result) {
     if (err) {
       console.log(err);
     }

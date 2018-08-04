@@ -7,19 +7,39 @@ var mysql = require('mysql');
 
 var pool = mysql.createPool(models.mysql);
 
-var query=function(sql,callback){
-  pool.getConnection(function(err,conn){
-    if(err){
-      callback(err,null,null);
-    }else{
-      conn.query(sql,function(err,results,fields){
-        //释放连接
-        conn.release();
-        //事件驱动回调
-        callback(err,results,fields);
-      });
-    }
-  });
-};
+// var query=function(sql,callback){
+//   pool.getConnection(function(err,conn){
+//     if(err){
+//       callback(err,null,null);
+//     }else{
+//       conn.query(sql,function(err,results,fields){
+//         //释放连接
+//         conn.release();
+//         //事件驱动回调
+//         callback(err,results,fields);
+//       });
+//     }
+//   });
+// };
 
+var query = function(sql){
+  return new Promise(function (resolve,reject) {
+    pool.getConnection(function(err,conn){
+      if(err){
+        reject(err);
+      }else{
+        conn.query(sql,function(err,rows,fields){
+          //释放连接
+          conn.release();
+          //传递Promise回调对象
+          resolve({
+            "err":err,
+            "rows":rows,
+            "fields":fields
+          });
+        });
+      }
+    })
+  })
+}
 module.exports=query;

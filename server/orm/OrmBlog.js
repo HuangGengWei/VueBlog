@@ -1,5 +1,4 @@
 let query = require('./mysql');
-let Q = require('q');
 let OrmBase = require('./OrmBase');
 const moment = require('moment-timezone');//for datetime
 //moment.tz.setDefault("Asia/Hong_Kong");
@@ -11,22 +10,20 @@ module.exports = {
   },
   AddBlog:function(params){
     //console.log('AddBlog',params);
-    let defer = Q.defer();
     let sql = 'INSERT INTO '+this.T_NAME+' (b_title,b_content,b_author,b_pv,b_comment,create_time,status) VALUES ("'+params.title+'","'+this.htmlspecialchars(params.content)+'","hwg","0","0",NOW(),"1");';
     //console.log('sql',sql);
-    query(sql,function(err,rst){
+    return query(sql).then(rst=>{
       //console.log('插入数据返回结果',rst);
-      if (err){
-        defer.reject(new Error(err));
+      if (rst.err){
+        return {'STS':'KO','errmsg':'rst.err'};
       }else{
-        if (rst && rst.insertId>=1){
-          defer.resolve({'STS':'OK'});
+        if (rst.rows && rst.rows.insertId>=1){
+          return {'STS':'OK'};
         }else{
-          defer.resolve({'STS':'KO','errmsg':'发布失败'});
+          return {'STS':'KO','errmsg':'发布失败'};
         }
       }
     });
-    return defer.promise;
   },
   ShowAllBlog:function(params){
     let param = {
@@ -46,39 +43,35 @@ module.exports = {
   },
   UpdateBlog:function(params){
     //console.log('UpdateBlog',params);
-    let defer = Q.defer();
     let sql = 'UPDATE '+this.T_NAME+' SET b_title="'+params.title+'",b_content="'+this.htmlspecialchars(params.content)+'",update_time=NOW() WHERE id='+params.id+';';
     //console.log('sql',sql);
-    query(sql,function(err,rst){
+    return query(sql).then(rst=>{
       //console.log('更新数据返回结果',rst);
-      if (err){
-        defer.reject(new Error(err));
+      if (rst.err){
+        return {'STS':'KO','errmsg':rst.err};
       }else{
-        if (rst && rst.affectedRows>=1){
-          defer.resolve({'STS':'OK'});
+        if (rst.rows && rst.rows.affectedRows>=1){
+          return {'STS':'OK'};
         }else{
-          defer.resolve({'STS':'KO','errmsg':'更新失败'});
+          return {'STS':'KO','errmsg':'更新失败'};
         }
       }
     });
-    return defer.promise;
   },
   DeleteBlog:function(params){
     //console.log('DeleteBlog',params);
-    let defer = Q.defer();
-    query('UPDATE '+this.T_NAME+' SET status=0,update_time=NOW() WHERE id='+params.id+';',function(err,rst){
+    return query('UPDATE '+this.T_NAME+' SET status=0,update_time=NOW() WHERE id='+params.id+';').then(rst=>{
       //console.log('更新数据返回结果',rst);
-      if (err){
-        defer.reject(new Error(err));
+      if (rst.err){
+        return {'STS':'KO','errmsg':rst.err};
       }else{
-        if (rst && rst.affectedRows>=1){
-          defer.resolve({'STS':'OK'});
+        if (rst.rows && rst.rows.affectedRows>=1){
+          return {'STS':'OK'};
         }else{
-          defer.resolve({'STS':'KO','errmsg':'删除失败'});
+          return {'STS':'KO','errmsg':'删除失败'};
         }
       }
     });
-    return defer.promise;
   },
   BlogList:function(params){
     let param = {
@@ -89,7 +82,6 @@ module.exports = {
       'WHERE':' status=1 ',
     }
     return OrmBase.pageExecute(param).then(rst=>{
-      //console.log('rst',rst);
       for (let i in rst.rows){
         //rst.rows[i].b_content = this.htmlspecialchars_decode(rst.rows[i].b_content);
         rst.rows[i].create_time = this.getTimeStr(rst.rows[i].create_time);
@@ -98,20 +90,13 @@ module.exports = {
     })
   },
   Blog:function(params){
-    let defer = Q.defer();
-    query('SELECT * FROM '+this.T_NAME+' WHERE id='+params.id+';',function(err,rst){
-      console.log('BLOG',rst);
-      if (err){
-        defer.reject(new Error(err));
-      }else{
-        if (rst && rst.length>=1){
-          defer.resolve({'STS':'OK','data':rst});
-        }else{
-          defer.resolve({'STS':'KO','errmsg':'获取不到内容！'});
-        }
+    //console.log('params',params);
+    return query('SELECT * FROM '+this.T_NAME+' WHERE '+params.id+';').then(rst=>{
+      if (rst.err){
+        return {'STS':'KO','errmsg':rst.err};
       }
+      return {'STS':'OK','data':rst.rows};
     });
-    return defer.promise;
   },
   htmlspecialchars:function(str){
     // str = str.replace(/&/g, '&amp;');

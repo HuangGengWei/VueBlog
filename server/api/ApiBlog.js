@@ -47,8 +47,10 @@ router.post('/BlogList',(req,res)=>{
 })
 
 router.post('/Blog',(req,res)=>{
+  //console.log('req',req);
   let params = req.body;
   OrmBlog.Blog(params).then(rst=>{
+    //console.log('rst',rst);
     for(let i in rst.data){
       rst.data[i].create_time=OrmBlog.getTimeStr(rst.data[i].create_time);
       rst.data[i].b_content = OrmBlog.htmlspecialchars_decode(rst.data[i].b_content);

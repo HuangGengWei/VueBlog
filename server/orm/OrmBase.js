@@ -1,5 +1,4 @@
 let query = require('./mysql');
-let Q = require('q');
 
 module.exports = {
   pageExecute:function(param, max=999){
@@ -46,35 +45,21 @@ module.exports = {
     if(binding){
       rst.binding=binding;
     }
-    let defer = Q.defer();
     //console.log('第一条sql',sql);
-    query(sql,function(err,result){
-      //console.log('第一个Result',err,result);
-      if (err){
-        defer.reject(new Error(err));
-      }else{
-        rst.rows = result;
-        rst.total = result.length;
-
-        if (paramageNumber > 0 && paramageSize > 0 && max>0){
-          let sql = `SELECT COUNT(*) AS total ${from_s} ${where_s} ${group_s}`;
-          query(sql,function(err,result){
-            //console.log('第二条sql结果',result);
-            if (err){
-              defer.reject(new Error(err));
-            } else{
-              //let total = rst.rows[0]["total"];
-              // rst.maxRowCount=total;
-              rst.total=result[0].total;
-              defer.resolve(rst);
-            }
-          })
-        }else{
-          //约定如果第二参数为负数，跳过取总这一步.
-          defer.resolve(rst);
-        }
+    return query(sql).then(result=>{
+      if(result.err){
+        return {'STS':'KO','errmsg':result.err};
       }
+      rst.rows = result.rows;
+      rst.total = result.rows.length;
+      let sql2 = `SELECT COUNT(*) AS total ${from_s} ${where_s} ${group_s}`;
+      return query(sql2);
+    }).then(result=>{
+      if (result.err){
+        return {'STS':'KO','errmsg':result.err};
+      }
+      rst.total=result.rows[0].total;
+      return rst;
     })
-    return defer.promise;
   }
 }
