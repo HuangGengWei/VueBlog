@@ -33,7 +33,6 @@ Vue.use(ElementUI);
 
 import axios from 'axios';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.withCredentials = true;
 axios.interceptors.response.use(function (response) {
   console.log('axios.interceptors.response',response)
   // token 已过期，重定向到登录页面

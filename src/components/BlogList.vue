@@ -63,6 +63,7 @@
           pageSize:_this.pageSize,
         }
       }).then(response=>{
+        console.log('response',response);
         let rst = response.data;
         //console.log('rst',rst);
         // _this.data = rst.rows;
