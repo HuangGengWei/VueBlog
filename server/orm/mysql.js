@@ -5,7 +5,13 @@ var mysql = require('mysql');
 // var conn = mysql.createConnection(models.mysql);
 // conn.connect();
 
-var pool = mysql.createPool(models.mysql);
+var pool = mysql.createPool({
+  host: models.mysql.host,
+  user: models.mysql.user,
+  password: models.mysql.password,
+  database: models.mysql.database,
+  port: models.mysql.port
+});
 
 // var query=function(sql,callback){
 //   pool.getConnection(function(err,conn){
