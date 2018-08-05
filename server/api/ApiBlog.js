@@ -11,6 +11,10 @@ var models = require('../config/config');
 var mysql = require('mysql');
 router.post('/TestMySQL',(req,res)=>{
     var pool = mysql.createPool({
+      connectionLimit : 1000,
+      connectTimeout  : 60 * 60 * 1000,
+      aquireTimeout   : 60 * 60 * 1000,
+      timeout         : 60 * 60 * 1000,
       host: models.mysql.host,
       user: models.mysql.user,
       password: models.mysql.password,
