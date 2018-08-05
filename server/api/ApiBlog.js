@@ -25,6 +25,7 @@ router.post('/TestMySQL',(req,res)=>{
     if(err){
       callback(err,null,null);
     }else{
+      let sql='SELECT * FROM t_user;'
       conn.query(sql,function(err,results,fields){
         //释放连接
         conn.release();
