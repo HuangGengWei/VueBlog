@@ -7,36 +7,6 @@ router.post('/Test',(req,res)=>{
   res.json(OrmBlog.Test());
 })
 
-var models = require('../config/config');
-var mysql = require('mysql');
-router.post('/TestMySQL',(req,res)=>{
-    var pool = mysql.createPool({
-      connectionLimit : 1000,
-      connectTimeout  : 60 * 60 * 1000,
-      aquireTimeout   : 60 * 60 * 1000,
-      timeout         : 60 * 60 * 1000,
-      host: models.mysql.host,
-      user: models.mysql.user,
-      password: models.mysql.password,
-      database: models.mysql.database,
-      port: models.mysql.port
-    });
-    pool.getConnection(function(err,conn){
-    if(err){
-      callback(err,null,null);
-    }else{
-      let sql='SELECT * FROM t_user;'
-      conn.query(sql,function(err,results,fields){
-        //释放连接
-        conn.release();
-        //事件驱动回调
-        callback(err,results,fields);
-      });
-    }
-  });
-  res.json({'STS':'OK'});
-});
-
 router.post('/AddBlog',OrmUser.CheckSession,(req,res)=>{
   let params = req.body;
   OrmBlog.AddBlog(params).then(rst=>{
