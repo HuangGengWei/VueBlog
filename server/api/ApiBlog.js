@@ -1,43 +1,24 @@
 var express = require('express');
 var router = express.Router();
-let OrmBlog = require('../orm/OrmBlog');
-let OrmUser = require('../orm/OrmUser');
 
-router.post('/Test',(req,res)=>{
-  res.json(OrmBlog.Test());
-})
+// let OrmBlog = require('../orm/mysql/OrmBlog');
+// let OrmUser = require('../orm/mysql/OrmUser');
+let OrmBlog = require('../orm/mongo/models/BlogModel');
+let OrmUser = require('../orm/mongo/models/UsersModel');//导入模型数据模块
 
-
-var models = require('../config/config');
-router.post('/TestMongodb',(req,res)=>{
-  var MongoClient = require('mongodb').MongoClient;
-  var url = models.mongodb;
-  MongoClient.connect(url, function (err, db) {
-    if (err) throw err;
-    console.log('数据库已创建');
-    var dbo = db.db("myblog");
-    dbo.collection("posts"). find({}).toArray(function(err, result) { // 返回集合中所有数据
-      if (err) throw err;
-      console.log(result);
-      res.json(result);
-      db.close();
-    });
-  });
-})
 
 router.post('/AddBlog',OrmUser.CheckSession,(req,res)=>{
   let params = req.body;
+  params.author = req.session.user
   OrmBlog.AddBlog(params).then(rst=>{
-    //console.log(rst);
-    rst.author = req.session.user;
-    res.json(rst);
+      res.json(rst);
   });
 })
 
 router.post('/UpdateBlog',OrmUser.CheckSession,function(req,res){
   let params = req.body;
   OrmBlog.UpdateBlog(params).then(rst=>{
-    res.json(rst);
+      res.json(rst)
   })
 })
 
@@ -51,7 +32,6 @@ router.post('/DeleteBlog',OrmUser.CheckSession,function(req,res){
 router.post('/ShowAllBlog',OrmUser.CheckSession,(req,res)=>{
   let params = req.body;
   OrmBlog.ShowAllBlog(params).then(rst=>{
-    //console.log(rst);
     res.json(rst);
   });
 })
@@ -64,16 +44,18 @@ router.post('/BlogList',(req,res)=>{
 })
 
 router.post('/Blog',(req,res)=>{
-  //console.log('req',req);
   let params = req.body;
   OrmBlog.Blog(params).then(rst=>{
-    //console.log('rst',rst);
-    for(let i in rst.data){
-      rst.data[i].create_time=OrmBlog.getTimeStr(rst.data[i].create_time);
-      rst.data[i].b_content = OrmBlog.htmlspecialchars_decode(rst.data[i].b_content);
-    }
     res.json(rst);
   })
 })
+
+router.post('/BlogTotal',(req,res)=>{
+  OrmBlog.BlogTotal().then(rst=>{
+    res.json(rst);
+  })
+})
+
+
 
 module.exports = router;

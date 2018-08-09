@@ -29,5 +29,8 @@ const ApiBlog = require('./api/ApiBlog');
 app.use('/api/ApiUser',ApiUser);
 app.use('/api/ApiBlog',ApiBlog);
 
+var mongoose = require('mongoose');
+mongoose.connect(config.mongourl,{ useNewUrlParser: true }) //连接数据库
+
 app.listen(config.port);
 console.log('success listen at port:'+config.port);

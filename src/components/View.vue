@@ -52,13 +52,13 @@
           data:{
             id:_this.id,
           }
-        }).then(response=>{
-          let rst = response.data;
+        }).then(res=>{
+          let rst = res.data;
           console.log(rst);
           if (rst.STS=='OK'){
-            _this.title = rst.data[0].b_title;
-            _this.create_time = rst.data[0].create_time;
-            $('#content_view').html(rst.data[0].b_content).text();
+            _this.title = rst.row[0].title;
+            _this.create_time = rst.row[0].meta.create_time;
+            $('#content_view').html(rst.row[0].content).text();
           }else{
             _this.$message.error(rst.errmsg);
           }

@@ -228,13 +228,11 @@
           url:'/api/ApiBlog/BlogList',
         }).then(response=>{
           let rst = response.data;
-          console.log(rst);
-          //if (rst.STS=='OK'){
+          if (rst.STS=='OK'){
             _this.data = rst.rows;
-            console.log('this.data',_this.data);
-          //}else{
+          }else{
             _this.$message.error(rst.errmsg);
-          //}
+          }
         }).catch(function(err){
           console.log(err)
         });

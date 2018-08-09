@@ -9,5 +9,6 @@ module.exports = {
   },
   //后端服务器端点配置
   port: 3000,
-  mongodb: 'mongodb://120.78.66.123:27017/myblog'
+  //mongourl: 'mongodb://120.78.66.123:27017/myblog',
+  mongourl: 'mongodb://127.0.0.1:27017/blog',
 }

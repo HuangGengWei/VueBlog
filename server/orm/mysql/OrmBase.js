@@ -2,8 +2,6 @@ let query = require('./mysql');
 
 module.exports = {
   pageExecute:function(param, max=999){
-    let _this = this;
-
     let select_s = "SELECT *";
     select_s = param["SELECT"]?"SELECT "+param["SELECT"] : select_s;
 

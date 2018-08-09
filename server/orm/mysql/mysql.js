@@ -1,4 +1,4 @@
-var models = require('../config/config');
+var models = require('../../config/config');
 var mysql = require('mysql');
 
 // 连接数据库

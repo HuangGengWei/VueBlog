@@ -87,9 +87,9 @@
               name: this.name,
               password: this.password,
             }
-          }).then(response=>{
-            let rst = response.data;
-            //console.log(rst);
+          }).then(res=>{
+            //console.log(res);
+            let rst = res.data;
             if (rst.STS=='OK'){
               this.$message({ message: '登陆成功', type: 'success' });
               this.$router.push({path:'./starter'});

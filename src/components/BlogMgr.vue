@@ -10,11 +10,11 @@
           <div class="row">
             <div class="col-md-12">
               <el-table :data="BlogTable" border stripe style="width: 100%;">
-                <el-table-column prop="b_author" label="作者"></el-table-column>
-                <el-table-column prop="b_title" label="博客标题"></el-table-column>
-                <el-table-column prop="b_comment" label="评论数"></el-table-column>
-                <el-table-column prop="b_pv" label="浏览量"></el-table-column>
-                <el-table-column fixed prop="create_time" label="日期"></el-table-column>
+                <el-table-column prop="author" label="作者"></el-table-column>
+                <el-table-column prop="title" label="博客标题"></el-table-column>
+                <el-table-column prop="comment" label="评论数"></el-table-column>
+                <el-table-column prop="pv" label="浏览量"></el-table-column>
+                <el-table-column fixed prop="meta.create_time" label="日期"></el-table-column>
                 <el-table-column label="操作">
                   <template slot-scope="scope">
                     <el-button size="mini" @click="ShowBlog(scope.$index, scope.row)">编辑</el-button>
@@ -121,12 +121,10 @@
             pageNumber:this.currentPage,
             pageSize:this.pageSize
           }
-        }).then(response=>{
-          //console.log(response);
-          let data = response.data;
+        }).then(res=>{
+          let data = res.data;
           _this.BlogTable =data.rows;
           _this.total = data.total;
-          //$('#ablog').html(response.data[2].b_content).text();
         }).catch(function(err){
           console.log(err)
         });
@@ -134,10 +132,10 @@
       ShowBlog:function(index,row){
         this.ClearInput();
         this.ChangeShow();
-        console.log('row',row);
-        this.title = row.b_title;
-        this.content = row.b_content;
-        this.id = row.id;
+        //console.log('row',row);
+        this.title = row.title;
+        this.content = row.content;
+        this.id = row._id;
       },
       ChangeShow:function(){
         this.SHOW_TABLE==true?this.SHOW_TABLE=false:this.SHOW_TABLE=true;
@@ -158,7 +156,7 @@
             method:'post',
             url:'/api/ApiBlog/DeleteBlog',
             data:{
-              id:row.id
+              id:row._id
             }
           }).then(res=>{
             let rst = res.data;

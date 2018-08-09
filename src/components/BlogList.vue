@@ -5,9 +5,9 @@
           <h1 class="title">博客列表</h1>
         </div>
         <div class="article-content" v-for="(item,index) in data">
-          <h4 class="title"><router-link :to="{path:'/View',query:{id:item.id}}">{{item.b_title}}</router-link></h4>
+          <h4 class="title"><router-link :to="{path:'/View',query:{id:item._id}}">{{item.title}}</router-link></h4>
           <div class="time">
-            <span class="txt">{{item.create_time}}</span>
+            <span class="txt">{{item.meta.create_time}}</span>
           </div>
           <hr/>
         </div>
@@ -40,14 +40,13 @@
           }
         }).then(response=>{
           let rst = response.data;
-          //console.log('rst',rst);
-          //if (rst.STS=='OK'){
-          _this.data = rst.rows;
-          _this.total = rst.total;
-          console.log('total',_this.total);
-          //}else{
-          //_this.$message.error(rst.errmsg);
-          //}
+          if (rst.STS=='OK'){
+            _this.data = rst.rows;
+            _this.total = rst.total;
+            console.log('total',_this.total);
+          }else{
+            _this.$message.error(rst.errmsg);
+          }
         }).catch(function(err){
           console.log(err)
         });
@@ -57,18 +56,9 @@
       let _this = this;
       _this.$axios({
         method:'post',
-        url:'/api/ApiBlog/BlogList',
-        data:{
-          pageNumber:_this.pageNumber,
-          pageSize:_this.pageSize,
-        }
-      }).then(response=>{
-        console.log('response',response);
-        let rst = response.data;
-        //console.log('rst',rst);
-        // _this.data = rst.rows;
-        _this.total = rst.total;
-
+        url:'/api/ApiBlog/BlogTotal',
+      }).then(res=>{
+        _this.total = res.data.total;
         // 分页元素ID（必填）
         var selector = '#pagelist';
         // 分页配置

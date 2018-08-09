@@ -93,10 +93,7 @@
             let rst = response.data;
             //console.log(rst);
             if (rst.STS=='OK'){
-              this.$message({
-                message: '发布成功',
-                type: 'success'
-              });
+              this.$message({ message: '发布成功', type: 'success' });
               this.$router.push({path:'./BlogMgr'});
             }else{
               this.$message.error(rst.errmsg);
