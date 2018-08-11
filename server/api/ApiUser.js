@@ -5,6 +5,8 @@ const sha1 = require('sha1')
 // let OrmUser = require('../orm/mysql/OrmUser');
 let OrmUser = require('../orm/mongo/models/UsersModel');//导入模型数据模块
 
+let ToolFunction = require('../tool/ToolFunction');
+
 var jsonWrite = function(res, ret) {
   if(typeof ret === 'undefined') {
     res.json({
@@ -16,11 +18,10 @@ var jsonWrite = function(res, ret) {
   }
 };
 
-
 router.post('/Signup',(req,res)=>{
-  //let params = req.body;
-  params = {'name':'hgw','password':'123456'};
+  let params = req.body;
   params.password=sha1(params.password);//加密password
+  params.create_time = ToolFunction.CreateTime();
   OrmUser.Signup(params).then(rst=>{
     console.log('rst',rst);
     res.json(rst);
@@ -28,7 +29,6 @@ router.post('/Signup',(req,res)=>{
 })
 
 router.post('/Login',(req,res)=>{
-    // console.log('req',req.body);
     let params = req.body;
     params.password=sha1(params.password);//加密password
     OrmUser.Login(params).then(rst=>{

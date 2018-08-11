@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%;height:100%">
     <section class="content" >
       <div class="box box-primary" v-if="SHOW_TABLE">
         <div class="box-header with-border">
@@ -14,7 +14,8 @@
                 <el-table-column prop="title" label="博客标题"></el-table-column>
                 <el-table-column prop="comment" label="评论数"></el-table-column>
                 <el-table-column prop="pv" label="浏览量"></el-table-column>
-                <el-table-column fixed prop="meta.create_time" label="日期"></el-table-column>
+                <el-table-column fixed prop="create_time" label="创建日期"></el-table-column>
+                <el-table-column fixed prop="update_time" label="更新日期"></el-table-column>
                 <el-table-column label="操作">
                   <template slot-scope="scope">
                     <el-button size="mini" @click="ShowBlog(scope.$index, scope.row)">编辑</el-button>

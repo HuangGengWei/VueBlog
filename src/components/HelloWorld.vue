@@ -1,10 +1,5 @@
 <template>
   <div class="hello">
-    <!--<h1><i class='fa fa-fw fa-amazon'></i>{{ msg }}</h1>-->
-      <!--<input type="text" name="username" v-model="userName"> <br>-->
-      <!--<input type="text" name="age" v-model="age"> <br>-->
-      <!--<a href="javascript:;" @click="addUser">提交</a>-->
-
         <header class="main-header">
           <!-- Logo -->
           <!--<a href="#" class="logo" @click="CheckLogin">-->

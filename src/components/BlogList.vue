@@ -7,7 +7,7 @@
         <div class="article-content" v-for="(item,index) in data">
           <h4 class="title"><router-link :to="{path:'/View',query:{id:item._id}}">{{item.title}}</router-link></h4>
           <div class="time">
-            <span class="txt">{{item.meta.create_time}}</span>
+            <span class="txt">{{item.create_time}}</span>
           </div>
           <hr/>
         </div>
@@ -38,12 +38,11 @@
             pageNumber:_this.pageNumber,
             pageSize:_this.pageSize,
           }
-        }).then(response=>{
-          let rst = response.data;
+        }).then(res=>{
+          let rst = res.data;
           if (rst.STS=='OK'){
             _this.data = rst.rows;
             _this.total = rst.total;
-            console.log('total',_this.total);
           }else{
             _this.$message.error(rst.errmsg);
           }

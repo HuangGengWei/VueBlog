@@ -1,7 +1,6 @@
 var mongoose = require('mongoose')
 var BlogSchema = require('../schemas/BlogSchema') //拿到导出的数据集模块
 var BlogModel = mongoose.model('Blog', BlogSchema) // 编译生成Movie 模型
-
 module.exports = {
   fetch: function() { //查询所有数据
     return BlogModel
@@ -14,28 +13,34 @@ module.exports = {
       .findOne({_id: id})
       .exec();
   },
-  AddBlog: function(params){
+  AddBlog: function(param){
     return BlogModel
-      .create(params).then(rst=>{
+      .create(param).then(rst=>{
         if (rst._id){
           return {'STS':'OK'};
         }else{
           return {'STS':'KO','errmsg':'发布文章失败'};
         }
-      })
+      }).catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
+      });
   },
-  UpdateBlog: function(params){
-    let {id,title,content} = params;
+
+  UpdateBlog: function(param){
+    let {id,title,content} = param;
     return BlogModel.update({ _id: id }, { $set: {title:title,content:content} }).exec().then(rst=>{
       if (rst.ok==1 && rst.nModified>=1){
         return {'STS':'OK'}
       }else{
         return {'STS':'KO','errmsg':'无任何改动'};
       }
+    }).catch(err=>{
+      return {'STS':'KO','errmsg':err.message}
     });
   },
-  DeleteBlog:function(params){
-    let {id} = params;
+
+  DeleteBlog:function(param){
+    let {id} = param;
     return BlogModel
       .update({_id:id},{$set:{status:-1}})
       .exec()
@@ -45,8 +50,11 @@ module.exports = {
         }else{
           return {'STS':'KO','errmsg':'删除博客失败'};
         }
-      })
+      }).catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
+      });
   },
+
   ShowAllBlog:function(param){
     let pageNumber = parseInt(param.pageNumber);
     let skip = 0;
@@ -55,48 +63,45 @@ module.exports = {
     let data = '';
     return BlogModel
       .find({status:1})
-      .sort('meta.update_time') //排序
+      .sort('meta.create_time') //排序
       .skip(skip)
       .limit(pageSize)
       .exec()
       .then(rst=>{
-        if (rst && rst.length>=1){
+        if (rst){
           data ={'STS':'OK','rows':rst};
-        }else{
-          data ={'STS':'KO','errmsg':'获取博客列表失败'};
         }
         return BlogModel.find({status:1}).countDocuments();
       }).then(total=>{
         data.total = total;
         return data;
-      })
+      }).catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
+      });
 
   },
   BlogList:function(param){
-    console.log(param);
     let pageNumber = parseInt(param.pageNumber);
     let skip = 0;
     if (pageNumber>1){skip=(pageNumber-1)*10};
     let pageSize = parseInt(param.pageSize);
     return BlogModel
-      .find({status:1},{ _id: 1,title:1,meta: 1 })
+      .find({status:1},{ _id: 1,title:1,create_time: 1 })
+      .sort('meta.create_time') //排序
       .skip(skip)
       .limit(pageSize)
       .exec()
       .then(rst=>{
-        for (let i in rst){
-          rst[i].meta.create_time = rst[i].meta.create_time.valueOf();
-        }
-        if (rst && rst.length>=1){
+        if (rst){
           return {'STS':'OK','rows':rst,'total':rst.length};
-        }else{
-          return {'STS':'KO','errmsg':'获取博客列表失败'};
         }
-      })
+      }).catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
+      });
   },
-  Blog:function(params){
-    let {id} = params;
-    console.log(id);
+
+  Blog:function(param){
+    let {id} = param;
     return BlogModel
       .find({_id:id,status:1})
       .exec()
@@ -106,7 +111,9 @@ module.exports = {
         }else{
           return {'STS':'KO','errmsg':'获取博客详情失败'};
         }
-      })
+      }).catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
+      });
   },
   BlogTotal:function(){
     return BlogModel
@@ -114,6 +121,8 @@ module.exports = {
       .countDocuments()
       .then(total=>{
         return {'STS':'OK','total':total};
+      }).catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
       });
   }
 }
