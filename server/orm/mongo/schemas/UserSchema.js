@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 //申明一个mongoons对象
-var UsersSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
   name: { type: 'string', required: true },
   password:{ type: 'string', required: true },
   status: {type:'number',default:1},
@@ -18,9 +18,9 @@ var UsersSchema = new mongoose.Schema({
     }
   }
 });
-UsersSchema.set('toJSON', { getters: true});
+UserSchema.set('toJSON', { getters: true});
 //每次执行都会调用,时间更新操作
-UsersSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next) {
   if(this.isNew) {
     this.meta.create_time = this.meta.update_time = Date.now;
   }else {
@@ -30,4 +30,4 @@ UsersSchema.pre('save', function(next) {
 })
 
 //暴露出去的方法
-module.exports = UsersSchema
+module.exports = UserSchema

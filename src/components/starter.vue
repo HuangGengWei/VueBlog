@@ -218,7 +218,7 @@
     <footer class="main-footer">
       <!-- To the right -->
       <div class="pull-right hidden-xs">
-        <b>QQ:774921756</b>
+        <b> >_ </b>
       </div>
       <!-- Default to the left -->
       <strong>Copyright &copy; 2018 <a href="https://github.com/HuangGengWei">HuangGengWei</a>.</strong>

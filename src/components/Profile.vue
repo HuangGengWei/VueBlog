@@ -12,7 +12,7 @@
               <p class="text-muted text-center">Web Engineer</p>
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>QQ:774921756</b
+                  <b>QQ:774921756</b>
                 </li>
                 <li class="list-group-item">
                   <b>phone:13622837599</b>

@@ -123,10 +123,15 @@
       //keydown事件
       let _this = this;
       document.onkeydown=function(event){
+        console.log('event',);
         var e = event || window.event || arguments.callee.caller.arguments[0];
         switch (e && e.keyCode){
           case 13:
-              _this.Login();
+              let str = event['path'][0]['baseURI'];
+              if (str.indexOf("login") >= 1 ){
+                  _this.Login();
+              }
+
             break;
         }
       };

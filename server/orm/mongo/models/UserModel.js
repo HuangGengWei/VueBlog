@@ -1,28 +1,28 @@
 var mongoose = require('mongoose')
-var UsersSchema = require('../schemas/UsersSchema') //拿到导出的数据集模块
-var UsersModel = mongoose.model('Users', UsersSchema) // 编译生成Movie 模型
+var UserSchema = require('../schemas/UserSchema') //拿到导出的数据集模块
+var UserModel = mongoose.model('Users', UserSchema) // 编译生成Movie 模型
 
 module.exports = {
   fetch: function(cb) { //查询所有数据
-    return UsersModel
+    return UserModel
       .find()
       .sort('meta.update_time') //排序
       .exec(cb) //回调
   },
   findById: function(id, cb) { //根据id查询单条数据
-    return UsersModel
+    return UserModel
       .findOne({_id: id})
       .exec(cb)
   },
   Login: function(params){
     var {name,password}=params;
-    return UsersModel
+    return UserModel
       .findOne({name:name,password:password})
       .exec();
   },
   Signup: function(params){
     //var {name,password}=params;
-    return UsersModel
+    return UserModel
       .create(params)
       .exec();
   },

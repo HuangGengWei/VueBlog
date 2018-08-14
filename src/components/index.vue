@@ -221,26 +221,26 @@
       }
     },
     methods:{
-      BlogList:function(){
-        let _this = this;
-        _this.$axios({
-          method:'post',
-          url:'/api/ApiBlog/BlogList',
-        }).then(response=>{
-          let rst = response.data;
-          if (rst.STS=='OK'){
-            _this.data = rst.rows;
-          }else{
-            _this.$message.error(rst.errmsg);
-          }
-        }).catch(function(err){
-          console.log(err)
-        });
-      }
+      // BlogList:function(){
+      //   let _this = this;
+      //   _this.$axios({
+      //     method:'post',
+      //     url:'/api/ApiBlog/BlogList',
+      //   }).then(response=>{
+      //     let rst = response.data;
+      //     if (rst.STS=='OK'){
+      //       _this.data = rst.rows;
+      //     }else{
+      //       _this.$message.error(rst.errmsg);
+      //     }
+      //   }).catch(function(err){
+      //     console.log(err)
+      //   });
+      // }
     },
     mounted(){
-      document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
-      this.BlogList();
+      //document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
+      //this.BlogList();
       // content-wrapper
       var content = document.getElementById('id-content');
       // side-menu

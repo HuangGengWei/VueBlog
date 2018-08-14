@@ -3,7 +3,7 @@ var router = express.Router();
 const sha1 = require('sha1')
 
 // let OrmUser = require('../orm/mysql/OrmUser');
-let OrmUser = require('../orm/mongo/models/UsersModel');//导入模型数据模块
+let OrmUser = require('../orm/mongo/models/UserModel');//导入模型数据模块
 
 let ToolFunction = require('../tool/ToolFunction');
 

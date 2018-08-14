@@ -44,6 +44,11 @@
       }
     },
     methods:{
+      //富文本
+      onEditorChange({ editor, html, text }) {
+        //console.log('editor change!', editor, html, text)
+        this.content = html
+      },
       Blog:function(){
         let _this = this;
         _this.$axios({

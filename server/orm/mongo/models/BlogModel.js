@@ -2,17 +2,20 @@ var mongoose = require('mongoose')
 var BlogSchema = require('../schemas/BlogSchema') //拿到导出的数据集模块
 var BlogModel = mongoose.model('Blog', BlogSchema) // 编译生成Movie 模型
 module.exports = {
+
   fetch: function() { //查询所有数据
     return BlogModel
       .find()
       .sort('meta.update_time') //排序
       .exec();//回调
   },
+
   findById: function(id) { //根据id查询单条数据
     return BlogModel
       .findOne({_id: id})
       .exec();
   },
+
   AddBlog: function(param){
     return BlogModel
       .create(param).then(rst=>{
@@ -27,8 +30,8 @@ module.exports = {
   },
 
   UpdateBlog: function(param){
-    let {id,title,content} = param;
-    return BlogModel.update({ _id: id }, { $set: {title:title,content:content} }).exec().then(rst=>{
+    let {id,title,content,update_time} = param;
+    return BlogModel.update({ _id:id},{ $set:{title:title,content:content,update_time:update_time}}).exec().then(rst=>{
       if (rst.ok==1 && rst.nModified>=1){
         return {'STS':'OK'}
       }else{
@@ -80,6 +83,7 @@ module.exports = {
       });
 
   },
+
   BlogList:function(param){
     let pageNumber = parseInt(param.pageNumber);
     let skip = 0;
@@ -115,6 +119,7 @@ module.exports = {
         return {'STS':'KO','errmsg':err.message}
       });
   },
+
   BlogTotal:function(){
     return BlogModel
       .find({status:1})
@@ -124,7 +129,24 @@ module.exports = {
       }).catch(err=>{
         return {'STS':'KO','errmsg':err.message}
       });
+  },
+
+  AccumulateOnePV:function(param){
+    let {id} = param;
+    return BlogModel
+      .update({ _id:id},{'$inc':{'pv':1}})
+      .then(rst=>{
+        if (rst.ok==1 && rst.nModified>=1){
+          return {'STS':'OK'}
+        }else{
+          return {'STS':'KO','errmsg':'无任何改动'};
+        }
+      })
+      .catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
+      })
   }
+
 }
 
 // module.exports = BlogModel
