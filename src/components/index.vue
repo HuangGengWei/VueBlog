@@ -237,9 +237,22 @@
       //     console.log(err)
       //   });
       // }
+
+      AddClientIP:function(){
+          let _this = this;
+          _this.$axios({
+            method:'post',
+            url:'/api/ApiClient/AddClientIP',
+          }).then(res=>{
+            //不做任何提示
+          }).catch(function(err){
+            console.log(err)
+          });
+      }
     },
     mounted(){
-      //document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
+      this.AddClientIP();
+      document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
       //this.BlogList();
       // content-wrapper
       var content = document.getElementById('id-content');
@@ -326,8 +339,6 @@
           window.scrollTo(0, currentScroll - (currentScroll / 5));
         }
       }
-
-
 
       // 修改tag的颜色
       var befs = document.querySelectorAll('.before');

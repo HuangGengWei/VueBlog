@@ -24,9 +24,11 @@ app.use(session({
 // node 后端服务器
 const ApiUser = require('./api/ApiUser');
 const ApiBlog = require('./api/ApiBlog');
+const ApiClient = require('./api/ApiClient');
 // 后端api路由
 app.use('/api/ApiUser',ApiUser);
 app.use('/api/ApiBlog',ApiBlog);
+app.use('/api/ApiClient',ApiClient);
 
 var mongoose = require('mongoose');
 mongoose.connect(config.mongourl,{ useNewUrlParser: true }) //连接数据库
