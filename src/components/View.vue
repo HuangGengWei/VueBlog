@@ -82,8 +82,11 @@
   </div>
 </template>
 <script>
+  import jQuery from 'jquery';
+  //console.log('jQuery',jQuery);
   import '../assets/css/myemojiPl.css'
   import '../lib/myemojiPl'
+
   export default {
     data () {
       return {
