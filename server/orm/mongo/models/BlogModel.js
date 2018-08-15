@@ -108,6 +108,7 @@ module.exports = {
     let {id} = param;
     return BlogModel
       .find({_id:id,status:1})
+      //.populate('commentId')//注意这是联合查询的关键
       .exec()
       .then(rst=>{
         if (rst){

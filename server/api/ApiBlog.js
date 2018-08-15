@@ -71,6 +71,23 @@ router.post('/BlogTotal',(req,res)=>{
   })
 })
 
+let OrmComment = require('../orm/mongo/models/CommentModel');
+let OrmClient = require('../orm/mongo/models/ClientModel');
 
+router.post('/AddComment',(req,res)=>{
+  let param = req.body;
+  param.ip = OrmClient.getClientIP(req);
+  param.create_time = ToolFunction.CreateTime();
+  OrmComment.AddComment(param).then(rst=>{
+    res.json(rst);
+  })
+})
+
+router.post('/ShowComment',(req,res)=>{
+  let param = req.body;
+  OrmComment.ShowComment(param).then(rst=>{
+    res.json(rst);
+  })
+})
 
 module.exports = router;
