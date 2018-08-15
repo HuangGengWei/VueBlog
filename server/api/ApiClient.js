@@ -6,8 +6,8 @@ let ToolFunction = require('../tool/ToolFunction');
 router.post('/AddClientIP',(req,res)=>{
   //执行记录ip的代码-----------------------------------------------------------------------------
   let ip = OrmClient.getClientIP(req);
-  //if (ip!='127.0.0.1'){
-    OrmClient.getIpInfo('120.78.66.123').then(rst=>{
+  if (ip!='127.0.0.1'){
+    OrmClient.getIpInfo(ip).then(rst=>{
       //console.log('rst',rst);
       if (rst.STS=='OK'){
         let ipinfo = rst.data;
@@ -22,6 +22,6 @@ router.post('/AddClientIP',(req,res)=>{
         });
       }
     });
-  //}
+  }
 })
 module.exports = router;
