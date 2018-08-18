@@ -11,16 +11,16 @@
         </div>
         <ul class="menu-list">
           <li class="item">
-            <router-link to="/BlogList" id="firstActive"><i class="icon icon-book"></i><span class="txt">博客</span></router-link>
+            <router-link to="/bloglist" id="firstActive"><i class="icon icon-book"></i><span class="txt">博客</span></router-link>
+          </li>
+          <!--<li class="item">-->
+            <!--<a href="#"><i class="icon icon-price-tag"></i><span class="txt">标签</span></a>-->
+          <!--</li>-->
+          <li class="item">
+            <router-link to="/image"><i class="icon icon-images"></i><span class="txt">相册</span></router-link>
           </li>
           <li class="item">
-            <a href="#"><i class="icon icon-price-tag"></i><span class="txt">标签</span></a>
-          </li>
-          <li class="item">
-            <a href="#"><i class="icon icon-images"></i><span class="txt">相册</span></a>
-          </li>
-          <li class="item">
-            <a href="#"><i class="icon icon-user"></i><span class="txt">关于我</span></a>
+            <router-link to="/aboutme"><i class="icon icon-user"></i><span class="txt">关于我</span></router-link>
           </li>
         </ul>
         <div class="about-me">
@@ -42,7 +42,7 @@
           <div id="id-menuIcon" class="menu-icon">
             <i class="icon-menu"></i>
           </div>
-          <router-link to="/starter"><div id="id-login">后台</div></router-link>
+          <router-link to="/admin"><div id="id-login">后台</div></router-link>
           <div id="id-topTxt" class="header-txt">博客首页</div>
         </div>
         <!--内容content-->

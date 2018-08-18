@@ -73,7 +73,7 @@
       </div>
       <div class="article-nav clearfix">
         <div class="nav article-next">
-          <router-link to="/BlogList">
+          <router-link to="/bloglist">
             返回<i class="arrow icon-arrow-outline-left"></i></router-link>
         </div>
       </div>
@@ -108,7 +108,7 @@
           }
         }).then(res=>{
           let rst = res.data;
-          console.log(rst);
+          //console.log(rst);
           if (rst.STS=='OK'){
             _this.title = rst.row[0].title;
             _this.create_time = rst.row[0].create_time;
@@ -122,25 +122,30 @@
       },
       AddComment:function(){
         let _this = this;
-        _this.$axios({
-          method:'post',
-          url:'/api/ApiBlog/AddComment',
-          data:{
-            comment:$('.Input_text').html(),
-            blogid:_this.id,
-          }
-        }).then(res=>{
-          let rst = res.data;
-          //console.log(rst);
-          if (rst.STS=='OK'){
-            $('.Input_text').html('');
-            _this.ShowComment();
-          }else{
-            _this.$message.error(rst.errmsg);
-          }
-        }).catch(function(err){
-          console.log(err)
-        });
+        if ($('.Input_text').html()!=''){
+          _this.$axios({
+            method:'post',
+            url:'/api/ApiBlog/AddComment',
+            data:{
+              comment:$('.Input_text').html(),
+              blogid:_this.id,
+            }
+          }).then(res=>{
+            let rst = res.data;
+            //console.log(rst);
+            if (rst.STS=='OK'){
+              $('.Input_text').html('');
+              _this.ShowComment();
+            }else{
+              _this.$message.error(rst.errmsg);
+            }
+          }).catch(function(err){
+            console.log(err)
+          });
+        }else{
+          _this.$message.error('你啥也没说呢');
+        }
+
       },
       ShowComment:function(){
         let _this = this;

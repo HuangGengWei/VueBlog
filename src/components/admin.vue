@@ -151,7 +151,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-left">
-                    <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
+                    <!--<a href="#" class="btn btn-default btn-flat">profile</a>-->
                     <router-link to="/" class="btn btn-default btn-flat">前台</router-link>
                   </div>
                   <div class="pull-right">
@@ -198,9 +198,9 @@
         <ul class="sidebar-menu" data-widget="tree" id="nky">
           <li class="header">HEADER</li>
            <!--Optionally, you can add icons to the links-->
-          <li class="active"><router-link to="/BlogMgr" id="firstActive"><i class="fa fa-list"></i> <span>管理博客</span></router-link></li>
-          <li><router-link to="/AddBlog"><i class="fa fa-file-text-o"></i> <span>发布博客</span></router-link></li>
-          <li><router-link to="/Profile"><i class="fa fa-user"></i><span>个人资料</span></router-link></li>
+          <li class="active"><router-link to="/blogmgr" id="firstActive"><i class="fa fa-list"></i> <span>管理博客</span></router-link></li>
+          <li><router-link to="/addblog"><i class="fa fa-file-text-o"></i> <span>发布博客</span></router-link></li>
+          <li><router-link to="/profile"><i class="fa fa-user"></i><span>个人资料</span></router-link></li>
         </ul>
         <!-- /.sidebar-menu -->
       </section>
@@ -351,9 +351,9 @@
     },
     mounted(){
       this.CheckLogin();
-
-      this.autodivheight();
-
+      $(window).resize(function() {
+        this.autodivheight();
+      });
       document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
 
       $(function (){

@@ -34,12 +34,11 @@
           </form>
         </div>
         <div class="box-footer clearfix">
-          <el-button class="pull-right" @click="AddBlog">Send
+          <el-button class="pull-right" @click="addblog">Send
             <i class="fa fa-arrow-circle-right"></i></el-button>
         </div>
       </div>
     </section>
-
   </div>
 </template>
 <script>
@@ -50,7 +49,7 @@
     data () {
       return {
         title:'',
-        content: '<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>',
+        content: '',
         editorOption: {
           // something config
         }
@@ -72,8 +71,7 @@
         console.log('editor change!', editor, html, text)
         this.content = html
       },
-      AddBlog(){
-        console.log('content',this.content);
+      addblog(){
         if (!this.title) {
           this.$message.error('标题不能为空');
         }
@@ -94,7 +92,7 @@
             //console.log(rst);
             if (rst.STS=='OK'){
               this.$message({ message: '发布成功', type: 'success' });
-              this.$router.push({path:'./BlogMgr'});
+              this.$router.push({path:'./blogmgr'});
             }else{
               this.$message.error(rst.errmsg);
             }

@@ -92,7 +92,7 @@
             let rst = res.data;
             if (rst.STS=='OK'){
               this.$message({ message: '登陆成功', type: 'success' });
-              this.$router.push({path:'./starter'});
+              this.$router.push({path:'./admin'});
             }else{
               this.$message.error(rst.errmsg);
             }
@@ -111,7 +111,7 @@
           let data = response.data;
           if (data.STS=='OK'){
             this.$message({ message: '用户已登陆,为您跳转至管理主页', type: 'success' });
-            this.$router.push({path:'./starter'});
+            this.$router.push({path:'./admin'});
           }
         }).catch(function(err){
           console.log(err)

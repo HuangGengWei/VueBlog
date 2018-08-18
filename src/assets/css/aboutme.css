@@ -1,0 +1,83 @@
+*{
+
+                   margin: 0;
+
+                   padding: 0;
+
+                   border: none;
+
+                   font-size: 12px;
+
+}
+
+#jianil{
+
+  width: 797px;
+
+  margin: 0 auto;
+
+  border: solid 1px #DCDDDF;
+
+}
+
+#jianil .one{
+
+  /*background: url(../timg.jpg);*/
+
+  width: 797px;
+
+  height: 100px;
+
+  font-size: 30px;
+
+  color: white;
+
+  font-weight: bold;
+
+  text-align: center;
+
+  margin-bottom: 0;
+
+  line-height: 90px;
+
+}
+
+#jianil ul{
+
+  width: 771px;
+
+  margin-left: 13px;
+
+  margin-top: 40px;
+
+}
+
+#jianil ul li{
+
+  font-size: 20.5px;
+
+  /*background: url(images/tubia.png) no-repeat;*/
+
+  list-style: none;
+
+  text-indent:1.8em;
+
+  line-height: 30px;
+
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid #DCDDDF;
+
+}
+
+#jianil ul li.none1{
+
+  border-bottom: none;
+
+}
+
+#jianil ul li p{
+
+  font-size: 15px;
+
+}
