@@ -29,5 +29,28 @@ module.exports = {
       }).catch(err=>{
         return {'STS':'KO','errmsg':err.message}
       });
+  },
+  CountCommentTotal:function(param){
+    let {blogid} = param;
+    return CommentModel
+    .find({'blogid':blogid})
+    .countDocuments()
+      .then(total=>{
+        return {'STS':'OK','total':total};
+      }).catch(err=>{
+        return {'STS':'KO','errmsg':err.message}
+      });
+  },
+  UpdateCommentCount:function(param){
+    let {id,comment} =param;
+    return BlogModel.update({ _id:id},{$set:{comment:comment}}).exec().then(rst=>{
+      if (rst.ok==1 && rst.nModified>=1){
+        return {'STS':'OK'}
+      }else{
+        return {'STS':'KO','errmsg':'无任何改动'};
+      }
+    }).catch(err=>{
+      return {'STS':'KO','errmsg':err.message}
+    });
   }
 }

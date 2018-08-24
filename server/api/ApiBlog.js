@@ -79,6 +79,13 @@ router.post('/AddComment',(req,res)=>{
   param.ip = OrmClient.getClientIP(req);
   param.create_time = ToolFunction.CreateTime();
   OrmComment.AddComment(param).then(rst=>{
+    if (rst.STS=='OK') {
+      OrmComment.CountCommentTotal({'blogid':param.blogid}).then(rst=>{
+        if (rst.STS=='OK') {
+          OrmComment.UpdateCommentCount({'id':param.blogid,'comment':rst.total});
+        }
+      })
+    }
     res.json(rst);
   })
 })
