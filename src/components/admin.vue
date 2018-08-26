@@ -319,22 +319,6 @@
             console.log(err)
           });
       },
-      //解决进html页面缩小且出现滚动条的问题 -----得配合vue.js的mounted解决问题
-      autodivheight:function(){
-        //获取浏览器窗口高度
-        var winHeight=0;
-        if (window.innerHeight)
-          winHeight = window.innerHeight;
-        else if ((document.body) && (document.body.clientHeight))
-          winHeight = document.body.clientHeight;
-        //通过深入Document内部对body进行检测，获取浏览器窗口高度
-        if (document.documentElement && document.documentElement.clientHeight)
-          winHeight = document.documentElement.clientHeight;
-        //DIV高度为浏览器窗口的高度
-        document.getElementById("app").style.height= winHeight +"px";
-        //DIV高度为浏览器窗口高度的一半
-        //document.getElementById("app").style.height= winHeight/2 +"px";
-      },
       SignOut:function(){
         this.$axios({
           method:'post',
@@ -351,11 +335,7 @@
     },
     mounted(){
       this.CheckLogin();
-      $(window).resize(function() {
-        this.autodivheight();
-      });
       document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
-
       $(function (){
         $('#nky li').click(function (){
           //把之前已有的active去掉
@@ -366,5 +346,19 @@
       })
     },
   }
-
+  $(window).resize(function() {
+    //获取浏览器窗口高度
+    var winHeight=0;
+    if (window.innerHeight)
+      winHeight = window.innerHeight;
+    else if ((document.body) && (document.body.clientHeight))
+      winHeight = document.body.clientHeight;
+    //通过深入Document内部对body进行检测，获取浏览器窗口高度
+    if (document.documentElement && document.documentElement.clientHeight)
+      winHeight = document.documentElement.clientHeight;
+    //DIV高度为浏览器窗口的高度
+    document.getElementById("app").style.height= winHeight +"px";
+    //DIV高度为浏览器窗口高度的一半
+    //document.getElementById("app").style.height= winHeight/2 +"px";
+  });
 </script>

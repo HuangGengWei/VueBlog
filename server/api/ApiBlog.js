@@ -82,7 +82,7 @@ router.post('/AddComment',(req,res)=>{
     if (rst.STS=='OK') {
       OrmComment.CountCommentTotal({'blogid':param.blogid}).then(rst=>{
         if (rst.STS=='OK') {
-          OrmComment.UpdateCommentCount({'id':param.blogid,'comment':rst.total});
+          OrmBlog.UpdateCommentCount({'id':param.blogid,'comment':rst.total});
         }
       })
     }
