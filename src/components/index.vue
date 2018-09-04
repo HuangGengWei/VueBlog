@@ -1,7 +1,6 @@
 <template>
   <div>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
-    <link type="favicon" rel="shortcut icon" href="./static/favicon.ico" />
     <div class="index-wrapper">
       <!--侧边菜单-->
       <div id="id-sideMenu" class="index-side-menu">
