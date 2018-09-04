@@ -65,7 +65,7 @@ module.exports = {
     let pageSize = parseInt(param.pageSize);
     let data = '';
     return BlogModel
-      .find({status:1})
+      .find({status:1},{ _id: 1,title:1,create_time:1,author:1,comment:1,pv:1,update_time:1})
       .sort('meta.create_time') //排序
       .skip(skip)
       .limit(pageSize)

@@ -133,10 +133,32 @@
       ShowBlog:function(index,row){
         this.ClearInput();
         this.ChangeShow();
+
+        let _this = this;
+        _this.$axios({
+          method:'post',
+          url:'/api/ApiBlog/Blog',
+          data:{
+            id:row._id
+          }
+        }).then(res=>{
+          let rst = res.data;
+          //console.log(rst);
+          if (rst.STS=='OK'){
+            _this.title = rst.row[0].title;
+            _this.content = rst.row[0].content;
+            _this.id = rst,row[0]._id;
+          }else{
+            _this.$message.error(rst.errmsg);
+          }
+        }).catch(function(err){
+          console.log(err)
+        });
+
         //console.log('row',row);
-        this.title = row.title;
-        this.content = row.content;
-        this.id = row._id;
+        // this.title = row.title;
+        // this.content = row.content;
+        // this.id = row._id;
       },
       ChangeShow:function(){
         this.SHOW_TABLE==true?this.SHOW_TABLE=false:this.SHOW_TABLE=true;

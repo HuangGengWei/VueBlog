@@ -340,19 +340,6 @@
         }
       }
 
-      // 修改tag的颜色
-      var befs = document.querySelectorAll('.before');
-      befs.forEach(function (bef) {
-        var color = getRandomTag();
-        bef.style['border-right-color'] = color;
-        bef.parentElement.style.background = color;
-      });
-
-      function getRandomTag() {
-        var colors = ['#7b5d5f', '#ba8f6c', '#ff945c', '#cc8167', '#5c9466'];
-        return colors[Math.floor(Math.random() * 5)];
-      }
-
       //星星动画-------------------------------------------------------------------------------------------
       window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
