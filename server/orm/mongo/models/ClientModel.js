@@ -59,13 +59,14 @@ module.exports = {
       .findOne({ip:ip},{_id:1,ip:1})
       .exec()
       .then(rst=>{
-        //console.log('rst',rst.ip);
-        if (rst.ip) {
+        if (rst!=null) {
           return {'STS':'OK','id':rst._id};
         }else{
           return {'STS':'KO'};
         }
-      });
+      }).catch(err=>{
+      return {'STS':'KO','errmsg':err.message}
+    });
   },
 
   updateIpInfo:function(param){
