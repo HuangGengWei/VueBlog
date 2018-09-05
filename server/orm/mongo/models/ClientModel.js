@@ -52,5 +52,37 @@ module.exports = {
       }).catch(err=>{
         return {'STS':'KO','errmsg':err.message}
       });
+  },
+
+  checkExist:function(ip){
+    return ClientModel
+      .findOne({ip:ip},{_id:1,ip:1})
+      .exec()
+      .then(rst=>{
+        //console.log('rst',rst.ip);
+        if (rst.ip) {
+          return {'STS':'OK','id':rst._id};
+        }else{
+          return {'STS':'KO'};
+        }
+      });
+  },
+
+  updateIpInfo:function(param){
+    let {id,update_time} = param;
+    return ClientModel
+    .update({'_id':id},{update_time:update_time,'$inc':{'pv':1}})
+    .exec()
+    .then(rst=>{
+        if (rst.ok==1 && rst.nModified>=1){
+          return {'STS':'OK'}
+        }else{
+          return {'STS':'KO','errmsg':'无任何改动'};
+        }
+    }).catch(err=>{
+      return {'STS':'KO','errmsg':err.message}
+    })
   }
+
+
 }

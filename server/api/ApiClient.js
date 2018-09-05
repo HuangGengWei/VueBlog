@@ -7,21 +7,31 @@ router.post('/AddClientIP',(req,res)=>{
   //执行记录ip的代码-----------------------------------------------------------------------------
   let ip = OrmClient.getClientIP(req);
   if (ip!='127.0.0.1'){
-    OrmClient.getIpInfo(ip).then(rst=>{
-      //console.log('rst',rst);
-      if (rst.STS=='OK'){
-        let ipinfo = rst.data;
-        let {ip,country,region,city,isp} = ipinfo;
-        OrmClient.AddClientIP({
-          'ip':ip,
-          'location':country+region+city,
-          'isp':isp,
-          'create_time':ToolFunction.CreateTime()
-        }).then(rst=>{
-            res.json(rst);
+    OrmClient.checkExist(ip).then(rst=>{
+      if (rst.STS=='KO') {
+        OrmClient.getIpInfo(ip).then(rst=>{
+          //console.log('rst',rst);
+          if (rst.STS=='OK'){
+            let ipinfo = rst.data;
+            let {ip,country,region,city,isp} = ipinfo;
+            OrmClient.AddClientIP({
+              'ip':ip,
+              'location':country+region+city,
+              'isp':isp,
+              'create_time':ToolFunction.CreateTime()
+            }).then(rst=>{
+                res.json(rst);
+            });
+          }
         });
+      }else if (rst.STS=='OK'){
+        OrmClient.updateIpInfo({'id':rst.id,'update_time':ToolFunction.CreateTime()})
+        .then(rst=>{
+          res.json(rst);
+        })
       }
-    });
+    })
+
   }
 })
 module.exports = router;

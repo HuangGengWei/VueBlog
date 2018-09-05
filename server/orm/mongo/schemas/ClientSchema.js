@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 var ClientSchema = new mongoose.Schema({
   ip:{type:'string',required:true},
   create_time:{type:'string',required:true},
+  update_time:{type:'string'},
+  pv: {type:'number',default:0},
   location:{type:'string'},
   isp:{type:'string'},
   meta: {
