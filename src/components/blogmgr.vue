@@ -143,11 +143,11 @@
           }
         }).then(res=>{
           let rst = res.data;
-          //console.log(rst);
+          //console.log('ShowBlog',rst);
           if (rst.STS=='OK'){
             _this.title = rst.row[0].title;
             _this.content = rst.row[0].content;
-            _this.id = rst,row[0]._id;
+            _this.id = rst.row[0]._id;
           }else{
             _this.$message.error(rst.errmsg);
           }
