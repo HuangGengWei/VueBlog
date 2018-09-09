@@ -8,6 +8,62 @@
         <!-- /.box-header -->
         <div class="box-body">
           <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group col-xs-12">
+                    <div class="input-group-btn">
+                        <select v-model="column" name="type" class="form-control" style="width: auto;">
+                            <option value="author">作者</option>
+                            <option value="title">标题</option>
+                        </select>
+                    </div>
+                    <input v-model="text" type="text" name="keyword" id="keyword" class="form-control" placeholder="请您输入关键词">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6" v-for="(item,index) in SearchArray">
+                <div class="form-group">
+                  <div class="input-group col-xs-12">
+                      <div class="input-group-btn">
+                          <select v-model="item.conne" name="type" class="form-control" style="width: auto;">
+                              <option value="AND">和</option>
+                              <option value="OR">或</option>
+                          </select>
+                      </div>
+                      <div class="input-group-btn">
+                          <select v-model="item.column" name="type" class="form-control" style="width: auto;">
+                              <option value="author">作者</option>
+                              <option value="title">标题</option>
+                          </select>
+                      </div>
+                      <input v-model="item.text" type="text" name="keyword" id="keyword" class="form-control" placeholder="请您输入关键词">
+                      <span class="input-group-btn">
+                          <button class="btn btn-danger" id="search_submit" type="submit" @click="removeSearchCondition(index)">删除</button>
+                      </span>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group col-xs-12">
+                    <el-date-picker type="date" placeholder="开始时间" v-model="start_day" value-format="yyyy-MM-dd" style="width: 100%;" ></el-date-picker>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <div class="input-group col-xs-12">
+                    <el-date-picker type="date" placeholder="结束时间" v-model="end_day" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" style="margin-bottom:10px;float:left;">
+                <!-- <button class="btn btn-default" type="submit" @click="addSearchCondition()">添加搜索条件</button> -->
+                <button class="btn btn-info" type="submit" @click="ShowAllBlog()">开始搜索</button>
+                <button class="btn btn-default" type="submit" @click="RetSetSearch()">重置搜索</button>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-md-12">
               <el-table :data="BlogTable" border stripe style="width: 100%;">
                 <el-table-column prop="author" label="作者"></el-table-column>
@@ -81,6 +137,14 @@
   export default {
     data() {
       return {
+        SearchArray:[{column:'title',text:'',conne:'AND'}],
+        //SearchArray:'',
+        column:'title',
+        text:'',
+
+        start_day:'',
+        end_day:'',
+
         BlogTable: [],
         currentPage:1,
         pageSize:10,
@@ -100,6 +164,20 @@
       }
     },
     methods:{
+      addSearchCondition(){
+        this.SearchArray.push({"conne":"AND","column":"title","text":""});
+      },
+      removeSearchCondition(index){
+        this.SearchArray.splice(index, 1);
+      },
+      RetSetSearch(){
+        this.column='title';
+        this.text='';
+        this.SearchArray=[{column:'title',text:'',conne:'AND'}];
+        this.start_day = '';
+        this.end_day = '';
+        this.ShowAllBlog();
+      },
       //富文本
       onEditorChange({ editor, html, text }) {
         //console.log('editor change!', editor, html, text)
@@ -115,12 +193,58 @@
       },
       ShowAllBlog: function () {
         let _this = this;
+
+        //let filter = {};
+        let AndArray = [];//AND数组
+        let OrArray = [];//Or数组
+
+        //dev_stock_api_server的写法
+        // if (_this.column && _this.text!='') {
+        //   AndArray.push({"key":_this.column,"value":_this.text});
+        // }
+        // for (var i in _this.SearchArray) {
+        //   if (_this.SearchArray[i].conne=='AND' && _this.SearchArray[i].text!='') {
+        //     AndArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
+        //   }
+        //   if (_this.SearchArray[i].conne=='OR' && _this.SearchArray[i].text!='') {
+        //     OrArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
+        //   }     
+        // }
+        // if (AndArray.length>0){
+        //   filter['AND'] = AndArray;
+        // }
+        // if (OrArray.length>0){
+        //   filter['OR'] = OrArray;
+        // }
+
+        if (_this.SearchArray.length>0) {
+          for (var i in _this.SearchArray) {
+            if (_this.SearchArray[i].conne=='AND' && _this.SearchArray[i].text!='') {
+              AndArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
+            }
+            if (_this.SearchArray[i].conne=='OR' && _this.SearchArray[i].text!='') {
+              OrArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
+            }
+
+            if (_this.SearchArray[i].text=='' && _this.column && _this.text!='') {
+              AndArray.push({"key":_this.column,"value":_this.text});
+            }
+          }
+        }else{
+          AndArray.push({"key":_this.column,"value":_this.text});
+        }
+
+
         this.$axios({
           url:'/api/ApiBlog/ShowAllBlog',
           method: 'post',
           data:{
             pageNumber:this.currentPage,
-            pageSize:this.pageSize
+            pageSize:this.pageSize,
+            And:AndArray,
+            Or:OrArray,
+            startDay:this.start_day,
+            endDay:this.end_day
           }
         }).then(res=>{
           let data = res.data;
