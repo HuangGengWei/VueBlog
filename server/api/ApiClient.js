@@ -6,7 +6,7 @@ let ToolFunction = require('../tool/ToolFunction');
 router.post('/AddClientIP',(req,res)=>{
   //执行记录ip的代码-----------------------------------------------------------------------------
   let ip = OrmClient.getClientIP(req);
-  if (ip=!'127.0.0.1'){
+  if (ip!='127.0.0.1'){
     OrmClient.checkExist(ip).then(rst=>{
       if (rst.STS=='KO') {
         OrmClient.getIpInfo(ip).then(rst=>{
