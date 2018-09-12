@@ -59,7 +59,7 @@
             </div>
             <div class="col-md-12" style="margin-bottom:10px;float:left;">
                 <!-- <button class="btn btn-default" type="submit" @click="addSearchCondition()">添加搜索条件</button> -->
-                <button class="btn btn-info" type="submit" @click="ShowAllBlog()">开始搜索</button>
+                <button class="btn btn-info" type="submit" @click="Search()">开始搜索</button>
                 <button class="btn btn-default" type="submit" @click="RetSetSearch()">重置搜索</button>
             </div>
           </div>
@@ -170,12 +170,19 @@
       removeSearchCondition(index){
         this.SearchArray.splice(index, 1);
       },
+      Search(){
+        this.currentPage=1;
+        this.pageSize=10;
+        this.ShowAllBlog();
+      },
       RetSetSearch(){
         this.column='title';
         this.text='';
         this.SearchArray=[{column:'title',text:'',conne:'AND'}];
         this.start_day = '';
         this.end_day = '';
+        this.currentPage=1;
+        this.pageSize=10;
         this.ShowAllBlog();
       },
       //富文本
