@@ -16,8 +16,8 @@ const login = r => require.ensure([],()=>r(require('@/components/login')),'login
 // import profile from '@/components/profile'
 const profile = r => require.ensure([],()=>r(require('@/components/profile')),'profile')
 
-// import index from '@/components/index'
-const index = r => require.ensure([],()=>r(require('@/components/index')),'index')
+import index from '@/components/index'
+//const index = r => require.ensure([],()=>r(require('@/components/index')),'index')
 
 //import view from '@/components/view'
 const view = r => require.ensure([],()=>r(require('@/components/view')),'view')
