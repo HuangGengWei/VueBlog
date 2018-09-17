@@ -82,20 +82,36 @@
         if(this.name && this.password){
           this.$axios({
             method: 'post',
-            url: '/api/ApiUser/Login',
-            data:{
-              name: this.name,
-              password: this.password,
-            }
+            //url: '/api/ApiUser/Login',
+            url: '/api/ApiUser/getPublicKey',
           }).then(res=>{
-            //console.log(res);
-            let rst = res.data;
-            if (rst.STS=='OK'){
-              this.$message({ message: '登陆成功', type: 'success' });
-              this.$router.push({path:'./admin'});
-            }else{
-              this.$message.error(rst.errmsg);
-            }
+            //console.log('返回数据',res);
+            let result = res.data;
+            // 从后端获取的公钥 String
+            var publicPem = result;
+            // 用JSEncrypt对密码进行加密
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey(publicPem);
+            
+            let encryptedPassword = encrypt.encrypt(this.password);
+            //console.log('前端加密后的密码',encryptedPassword);
+            
+            this.$axios({
+              method: 'post',
+              url: '/api/ApiUser/Login',
+              data:{
+                name: this.name,
+                password: encryptedPassword,
+              }
+            }).then(res=>{
+              let rst = res.data;
+              if (rst.STS=='OK'){
+                this.$message({ message: '登陆成功', type: 'success' });
+                this.$router.push({path:'./admin'});
+              }else{
+                this.$message.error(rst.errmsg);
+              }
+            })
           }).catch(function(err){
             console.log(err)
           });
