@@ -90,7 +90,7 @@ module.exports = {
     //console.log('P',P);
     return BlogModel
       .find(P,{ _id: 1,title:1,create_time:1,author:1,comment:1,pv:1,update_time:1})
-      .sort('meta.create_time') //排序
+      .sort({'meta.create_time':-1}) //排序
       .skip(skip)
       .limit(pageSize)
       .exec()
@@ -116,7 +116,7 @@ module.exports = {
     let pageSize = parseInt(param.pageSize);
     return BlogModel
       .find({status:1},{ _id: 1,title:1,create_time: 1 })
-      .sort('meta.create_time') //排序
+      .sort({'meta.create_time':-1}) //排序
       .skip(skip)
       .limit(pageSize)
       .exec()
