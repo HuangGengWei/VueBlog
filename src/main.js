@@ -26,10 +26,10 @@ import 'admin-lte/dist/css/skins/_all-skins.min.css'
 
 //导入
 // import Vue from 'vue';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+// import ElementUI from 'element-ui';
+//import 'element-ui/lib/theme-chalk/index.css';
 //import AppVue from './App.vue';
-Vue.use(ElementUI);
+//Vue.use(ElementUI);
 
 import axios from 'axios';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
