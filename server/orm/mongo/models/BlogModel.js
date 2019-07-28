@@ -30,8 +30,8 @@ module.exports = {
   },
 
   UpdateBlog: function(param){
-    let {id,title,content,update_time} = param;
-    return BlogModel.update({ _id:id},{ $set:{title:title,content:content,update_time:update_time}}).exec().then(rst=>{
+    let {id,title,content,source,update_time} = param;
+    return BlogModel.update({ _id:id},{ $set:{title:title,content:content,source:source,update_time:update_time}}).exec().then(rst=>{
       if (rst.ok==1 && rst.nModified>=1){
         return {'STS':'OK'}
       }else{
@@ -115,7 +115,7 @@ module.exports = {
     if (pageNumber>1){skip=(pageNumber-1)*10};
     let pageSize = parseInt(param.pageSize);
     return BlogModel
-      .find({status:1},{ _id: 1,title:1,create_time: 1 })
+      .find({status:1},{ _id: 1,title:1,source:1,create_time: 1 })
       .sort({'meta.create_time':-1}) //排序
       .skip(skip)
       .limit(pageSize)

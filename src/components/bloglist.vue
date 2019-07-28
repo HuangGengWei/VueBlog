@@ -4,12 +4,16 @@
         <div class="article-header">
           <h1 class="title">博客列表</h1>
         </div>
-        <div class="article-content" v-for="(item,index) in data">
-          <h4 class="title"><router-link :to="{path:'/View',query:{id:item._id}}">{{item.title}}</router-link></h4>
-          <div class="time">
-            <span class="txt">{{item.create_time}}</span>
-          </div>
-          <hr/>
+        <div class="article-content clearfix" v-for="(item,index) in data" v-bind:key="index">
+            <h4 class="title">
+              <router-link :to="{path:'/View',query:{id:item._id}}">{{item.title}}</router-link>
+              <div class="blue_tag" v-show="item.source==1">转载</div>
+              <div class="green_tag" v-show="item.source==2">原创</div>
+            </h4>
+            <div class="time">
+              <span class="txt">{{item.create_time}}</span>
+            </div>
+            <hr/>
         </div>
         <div class="article-info">
           <ol class="pagination" id="pagelist"></ol>
@@ -17,6 +21,40 @@
       </div>
     </div>
 </template>
+<style>
+  .clearfix{
+      content: "";
+      display: block;
+      clear: both;
+  }
+  .blue_tag{
+    float: right;
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+
+    border-radius: 10px;
+    border: 1px solid #46799b;
+    background: #e0eaf1;
+    color: #46799b;
+    cursor: pointer;
+  }
+  .green_tag{
+    float: right;
+
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+
+    border-radius: 10px;
+    border: 1px solid #45872c;
+    background: #e1f3da;
+    color: #45872c; 
+    cursor: pointer;
+  }
+</style>
 <script>
   import { Pagination } from 'csdwheels';
   export default {
@@ -80,7 +118,7 @@
             // obj.curr：获取当前页码
             // obj.limit：获取每页显示数据条数
             // obj.isFirst：是否首次加载页面，一般用于初始加载的判断
-            console.log('分页',obj);
+            //console.log('分页',obj);
             _this.pageNumber = obj.curr;
             _this.pageSize = obj.limit;
             _this.BlogList();

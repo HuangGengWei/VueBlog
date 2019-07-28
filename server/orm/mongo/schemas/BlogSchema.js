@@ -7,6 +7,7 @@ var BlogSchema = new mongoose.Schema({
   author: {type:'string',required:true},
   comment: {type:'number',default:0},
   pv: {type:'number',default:0},
+  source: {type:'number',default:0},
   status: {type:'number',default:1},
   create_time:{type:'string',required:true},
   update_time:{type:'string'},

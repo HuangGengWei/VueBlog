@@ -21,7 +21,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6" v-for="(item,index) in SearchArray">
+            <div class="col-md-6" v-for="(item,index) in SearchArray" v-bind:key="index">
                 <div class="form-group">
                   <div class="input-group col-xs-12">
                       <div class="input-group-btn">
@@ -105,21 +105,24 @@
           <div class="row">
             <div class="col-md-12">
               <form action="#" method="post">
-            <div class="form-group">
-              <input type="text" class="form-control" name="title" placeholder="标题" v-model="title">
-            </div>
-            <div>
-              <!-- use with components - bidirectional data binding（双向数据绑定） -->
-              <quill-editor ref="myTextEditor"
-                            v-model="content"
-                            :config="editorOption"
-                            @blur="onEditorBlur($event)"
-                            @focus="onEditorFocus($event)"
-                            @ready="onEditorReady($event)"
-                            @change="onEditorChange($event)"
-                            style="height:auto;margin-bottom: 30px;">
-              </quill-editor>
-            </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="title" placeholder="标题" v-model="title">
+                </div>
+                <div>
+                  <!-- use with components - bidirectional data binding（双向数据绑定） -->
+                  <quill-editor ref="myTextEditor"
+                                v-model="content"
+                                :config="editorOption"
+                                @blur="onEditorBlur($event)"
+                                @focus="onEditorFocus($event)"
+                                @ready="onEditorReady($event)"
+                                @change="onEditorChange($event)"
+                                style="height:auto;margin-bottom: 30px;">
+                  </quill-editor>
+                </div>
+                <!--原创or转载-->
+                <el-radio v-model="source" label="1">原创</el-radio>
+                <el-radio v-model="source" label="2">转载</el-radio>
               </form>
             </div>
           </div>
@@ -141,7 +144,7 @@
         //SearchArray:'',
         column:'title',
         text:'',
-
+        source: 0,
         start_day:'',
         end_day:'',
 
@@ -346,6 +349,7 @@
               id:this.id,
               title: this.title,
               content: this.content,
+              source: this.source
             }
           }).then(response=>{
             let rst = response.data;

@@ -31,6 +31,9 @@
                             >
               </quill-editor>
             </div>
+            <!--原创or转载-->
+            <el-radio v-model="source" label="1">原创</el-radio>
+            <el-radio v-model="source" label="2">转载</el-radio>
           </form>
         </div>
         <div class="box-footer clearfix">
@@ -50,6 +53,7 @@
       return {
         title:'',
         content: '',
+        source:0,
         editorOption: {
           // something config
         }
@@ -86,6 +90,7 @@
             data:{
               title: this.title,
               content: this.content,
+              source: this.source
             }
           }).then(response=>{
             let rst = response.data;

@@ -43,21 +43,29 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-// node 后端服务器
+
+//node 后端服务器
 const ApiUser = require('./api/ApiUser');
 const ApiBlog = require('./api/ApiBlog');
 const ApiClient = require('./api/ApiClient');
-// 后端api路由
+//后端api路由
 app.use('/api/ApiUser',ApiUser);
 app.use('/api/ApiBlog',ApiBlog);
 app.use('/api/ApiClient',ApiClient);
 
+//优化路由
+// app.use(/.*\/([a-zA-Z0-9_]+)*\/([a-zA-Z0-9_]+)/, (req,res,next)=>{
+//   var url = req._parsedOriginalUrl.path;
+//   //console.log('url',url);
+//   var mmm = url.match(/.*\/([a-zA-Z0-9_]+)*\/([a-zA-Z0-9_]+)(\.api)?$/);
+//   //console.log(mmm);
+//   require('./api/'+mmm[1])();
+// });
+
 var mongoose = require('mongoose');
 mongoose.connect(config.mongourl,{ useNewUrlParser: true }) //连接数据库
 
-
 const cluster = require('cluster');
-const http = require('http');
 const numCPUs = require('os').cpus().length;
 if (cluster.isMaster) {
   console.log(`主进程 ${process.pid} 正在运行`);
