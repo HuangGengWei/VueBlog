@@ -24,10 +24,10 @@
           </li>
         </ul>
         <div class="about-me">
-          <a href="https://github.com/HuangGengWei" class="sf" target="_blank">
+          <a href="https://github.com/HuangGengWei" class="github" target="_blank">
             <img src="../assets/github.jpg" alt="">
           </a>
-          <a href="https://segmentfault.com/u/xiaochengmujiang" class="github" target="_blank">
+          <a href="https://segmentfault.com/u/xiaochengmujiang" class="taobao" target="_blank">
             <img src="../assets/sf.jpg" alt="">
           </a>
           <a href="mailto:774921756@qq.com" class="email" target="_blank">

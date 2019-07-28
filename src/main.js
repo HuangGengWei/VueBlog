@@ -11,7 +11,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 import 'font-awesome/css/font-awesome.css'
 
-import 'bootstrap'
 import 'admin-lte'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'font-awesome/css/font-awesome.css'
