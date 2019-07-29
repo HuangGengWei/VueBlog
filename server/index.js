@@ -53,7 +53,11 @@ app.use('/api/ApiUser',ApiUser);
 app.use('/api/ApiBlog',ApiBlog);
 app.use('/api/ApiClient',ApiClient);
 
+
 //优化路由
+// const autoLoadRouter = require('./routes/autoLoad')
+// autoLoadRouter(app, path.join(__dirname, 'api'))
+
 // app.use(/.*\/([a-zA-Z0-9_]+)*\/([a-zA-Z0-9_]+)/, (req,res,next)=>{
 //   var url = req._parsedOriginalUrl.path;
 //   //console.log('url',url);
