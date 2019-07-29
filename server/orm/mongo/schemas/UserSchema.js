@@ -1,12 +1,12 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 
-//申明一个mongoons对象
+// 申明一个mongoons对象
 var UserSchema = new mongoose.Schema({
   name: { type: 'string', required: true },
-  password:{ type: 'string', required: true },
-  status: {type:'number',default:1},
-  create_time:{type:'string',required:true},
-  update_time:{type:'string'},
+  password: { type: 'string', required: true },
+  status: {type: 'number', default: 1},
+  create_time: {type: 'string', required: true},
+  update_time: {type: 'string'},
   meta: {
     create_time: {
       type: Date,
@@ -17,17 +17,17 @@ var UserSchema = new mongoose.Schema({
       default: Date.now
     }
   }
-});
-UserSchema.set('toJSON', { getters: true});
-//每次执行都会调用,时间更新操作
-UserSchema.pre('save', function(next) {
-  if(this.isNew) {
-    this.meta.create_time = this.meta.update_time = Date.now;
-  }else {
-    this.meta.update_time = Date.now;
+})
+UserSchema.set('toJSON', { getters: true })
+// 每次执行都会调用,时间更新操作
+UserSchema.pre('save', function (next) {
+  if (this.isNew) {
+    this.meta.create_time = this.meta.update_time = Date.now
+  } else {
+    this.meta.update_time = Date.now
   }
-  next();
+  next()
 })
 
-//暴露出去的方法
+// 暴露出去的方法
 module.exports = UserSchema
