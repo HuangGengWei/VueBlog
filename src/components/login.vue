@@ -55,102 +55,102 @@
   </div>
 </template>
 <script>
-  // $(function () {
-  //   $('input').iCheck({
-  //     checkboxClass: 'icheckbox_square-blue',
-  //     radioClass: 'iradio_square-blue',
-  //     increaseArea: '20%' // optional
-  //   });
-  // });
-  export default {
-    name: 'HelloWorld',
-    data () {
-      return {
-        // msg: 'Welcome to Your Vue.js App',
-        name:'',
-        password:'',
+// $(function () {
+//   $('input').iCheck({
+//     checkboxClass: 'icheckbox_square-blue',
+//     radioClass: 'iradio_square-blue',
+//     increaseArea: '20%' // optional
+//   });
+// });
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      // msg: 'Welcome to Your Vue.js App',
+      name: '',
+      password: ''
+    }
+  },
+  methods: {
+    Login: function () {
+      if (!this.password) {
+        this.$message.error('密码不能为空')
       }
-    },
-    methods:{
-      Login:function(){
-        if(!this.password){
-          this.$message.error('密码不能为空');
-        }
-        if(!this.name){
-          this.$message.error('用户名称不能为空');
-        }
-        if(this.name && this.password){
-          this.$axios({
-            method: 'post',
-            //url: '/api/ApiUser/Login',
-            url: '/api/ApiUser/getPublicKey',
-          }).then(res=>{
-            //console.log('返回数据',res);
-            let result = res.data;
-            // 从后端获取的公钥 String
-            var publicPem = result;
-            // 用JSEncrypt对密码进行加密
-            var encrypt = new JSEncrypt();
-            encrypt.setPublicKey(publicPem);
-            
-            let encryptedPassword = encrypt.encrypt(this.password);
-            //console.log('前端加密后的密码',encryptedPassword);
-            
-            this.$axios({
-              method: 'post',
-              url: '/api/ApiUser/Login',
-              data:{
-                name: this.name,
-                password: encryptedPassword,
-              }
-            }).then(res=>{
-              let rst = res.data;
-              if (rst.STS=='OK'){
-                this.$message({ message: '登陆成功', type: 'success' });
-                this.$router.push({path:'./admin'});
-              }else{
-                this.$message.error(rst.errmsg);
-              }
-            })
-          }).catch(function(err){
-            console.log(err)
-          });
-        }
-      },
-      //进入登录页面立刻检查一次是否是已登录状态
-      checkLogin:function(){
+      if (!this.name) {
+        this.$message.error('用户名称不能为空')
+      }
+      if (this.name && this.password) {
         this.$axios({
           method: 'post',
-          url: '/api/ApiUser/CheckLogin',
-        }).then(response=>{
-          console.log(response);
-          let data = response.data;
-          if (data.STS=='OK'){
-            this.$message({ message: '用户已登陆,为您跳转至管理主页', type: 'success' });
-            this.$router.push({path:'./admin'});
-          }
-        }).catch(function(err){
+          // url: '/api/ApiUser/Login',
+          url: '/api/ApiUser/getPublicKey'
+        }).then(res => {
+          // console.log('返回数据',res);
+          let result = res.data
+          // 从后端获取的公钥 String
+          var publicPem = result
+          // 用JSEncrypt对密码进行加密
+          var encrypt = new JSEncrypt()
+          encrypt.setPublicKey(publicPem)
+
+          let encryptedPassword = encrypt.encrypt(this.password)
+          // console.log('前端加密后的密码',encryptedPassword);
+
+          this.$axios({
+            method: 'post',
+            url: '/api/ApiUser/Login',
+            data: {
+              name: this.name,
+              password: encryptedPassword
+            }
+          }).then(res => {
+            let rst = res.data
+            if (rst.STS == 'OK') {
+              this.$message({ message: '登陆成功', type: 'success' })
+              this.$router.push({path: './admin'})
+            } else {
+              this.$message.error(rst.errmsg)
+            }
+          })
+        }).catch(function (err) {
           console.log(err)
-        });
+        })
       }
     },
-    mounted(){
-      this.checkLogin();
-      //keydown事件
-      let _this = this;
-      document.onkeydown=function(event){
-        console.log('event',);
-        var e = event || window.event || arguments.callee.caller.arguments[0];
-        switch (e && e.keyCode){
-          case 13:
-              let str = event['path'][0]['baseURI'];
-              if (str.indexOf("login") >= 1 ){
-                  _this.Login();
-              }
-
-            break;
+    // 进入登录页面立刻检查一次是否是已登录状态
+    checkLogin: function () {
+      this.$axios({
+        method: 'post',
+        url: '/api/ApiUser/CheckLogin'
+      }).then(response => {
+        console.log(response)
+        let data = response.data
+        if (data.STS === 'OK') {
+          this.$message({ message: '用户已登陆,为您跳转至管理主页', type: 'success' })
+          this.$router.push({path: './admin'})
         }
-      };
+      }).catch(function (err) {
+        console.log(err)
+      })
+    }
+  },
+  mounted () {
+    this.checkLogin()
+    // keydown事件
+    let _this = this
+    document.onkeydown = function (event) {
+      // console.log('event')
+      var e = event || window.event || arguments.callee.caller.arguments[0]
+      switch (e && e.keyCode) {
+        case 13:
+          let str = event['path'][0]['baseURI']
+          if (str.indexOf('login') >= 1) {
+            _this.Login()
+          }
+
+          break
+      }
     }
   }
+}
 </script>

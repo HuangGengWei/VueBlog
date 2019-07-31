@@ -34,7 +34,7 @@
           </ul>
           <div class="tab-pane" id="timeline">
             <!-- The timeline -->
-            <ul class="timeline timeline-inverse" v-for="(item,index) in comment">
+            <ul class="timeline timeline-inverse" v-for="(item,index) in comment" v-bind:key="index">
               <!-- timeline item -->
               <li>
                 <div class="timeline-item">
@@ -82,96 +82,95 @@
   </div>
 </template>
 <script>
-  import '../assets/css/myemojiPl.css'
-  export default {
-    data () {
-      return {
-        id:this.$route.query.id,
-        title:'',
-        create_time:'',
-        comment:'',
-      }
-    },
-    methods:{
-      //富文本
-      onEditorChange({ editor, html, text }) {
-        //console.log('editor change!', editor, html, text)
-        this.content = html
-      },
-      Blog:function(){
-        let _this = this;
-        _this.$axios({
-          method:'post',
-          url:'/api/ApiBlog/Blog',
-          data:{
-            id:_this.id,
-          }
-        }).then(res=>{
-          let rst = res.data;
-          //console.log(rst);
-          if (rst.STS=='OK'){
-            _this.title = rst.row[0].title;
-            _this.create_time = rst.row[0].create_time;
-            $('#content_view').html(rst.row[0].content).text();
-          }else{
-            _this.$message.error(rst.errmsg);
-          }
-        }).catch(function(err){
-          console.log(err)
-        });
-      },
-      AddComment:function(){
-        let _this = this;
-        if ($('.Input_text').html()!=''){
-          _this.$axios({
-            method:'post',
-            url:'/api/ApiBlog/AddComment',
-            data:{
-              comment:$('.Input_text').html(),
-              blogid:_this.id,
-            }
-          }).then(res=>{
-            let rst = res.data;
-            //console.log(rst);
-            if (rst.STS=='OK'){
-              $('.Input_text').html('');
-              _this.ShowComment();
-            }else{
-              _this.$message.error(rst.errmsg);
-            }
-          }).catch(function(err){
-            console.log(err)
-          });
-        }else{
-          _this.$message.error('你啥也没说呢');
-        }
-
-      },
-      ShowComment:function(){
-        let _this = this;
-        _this.$axios({
-          method:'post',
-          url:'/api/ApiBlog/ShowComment',
-          data:{
-            blogid:_this.id,
-          }
-        }).then(res=>{
-          let rst = res.data;
-          //console.log(rst);
-          if (rst.STS=='OK'){
-            _this.comment = rst.row;
-          }else{
-            _this.$message.error(rst.errmsg);
-          }
-        }).catch(function(err){
-          console.log(err)
-        });
-      }
-    },
-    mounted(){
-      this.Blog();
-      this.ShowComment();
-      // $('.Main2').myEmoji();
+import '../assets/css/myemojiPl.css'
+export default {
+  data () {
+    return {
+      id: this.$route.query.id,
+      title: '',
+      create_time: '',
+      comment: ''
     }
+  },
+  methods: {
+    // 富文本
+    onEditorChange ({ editor, html, text }) {
+      // console.log('editor change!', editor, html, text)
+      this.content = html
+    },
+    Blog: function () {
+      let _this = this
+      _this.$axios({
+        method: 'post',
+        url: '/api/ApiBlog/Blog',
+        data: {
+          id: _this.id
+        }
+      }).then(res => {
+        let rst = res.data
+        // console.log(rst);
+        if (rst.STS === 'OK') {
+          _this.title = rst.row[0].title
+          _this.create_time = rst.row[0].create_time
+          $('#content_view').html(rst.row[0].content).text()
+        } else {
+          _this.$message.error(rst.errmsg)
+        }
+      }).catch(function (err) {
+        console.log(err)
+      })
+    },
+    AddComment: function () {
+      let _this = this
+      if ($('.Input_text').html() !== '') {
+        _this.$axios({
+          method: 'post',
+          url: '/api/ApiBlog/AddComment',
+          data: {
+            comment: $('.Input_text').html(),
+            blogid: _this.id
+          }
+        }).then(res => {
+          let rst = res.data
+          // console.log(rst);
+          if (rst.STS === 'OK') {
+            $('.Input_text').html('')
+            _this.ShowComment()
+          } else {
+            _this.$message.error(rst.errmsg)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      } else {
+        _this.$message.error('你啥也没说呢')
+      }
+    },
+    ShowComment: function () {
+      let _this = this
+      _this.$axios({
+        method: 'post',
+        url: '/api/ApiBlog/ShowComment',
+        data: {
+          blogid: _this.id
+        }
+      }).then(res => {
+        let rst = res.data
+        // console.log(rst);
+        if (rst.STS === 'OK') {
+          _this.comment = rst.row
+        } else {
+          _this.$message.error(rst.errmsg)
+        }
+      }).catch(function (err) {
+        console.log(err)
+      })
+    }
+  },
+  mounted () {
+    this.Blog()
+    this.ShowComment()
+    // $('.Main2').myEmoji();
   }
+}
 </script>

@@ -205,282 +205,280 @@
   </div>
 </template>
 <script>
-  import '../assets/css/reset.css'
-  import '../assets/css/main.css'
-  import '../assets/css/fonts.css'
-  import '../assets/css/marked.css'
+import '../assets/css/reset.css'
+import '../assets/css/main.css'
+import '../assets/css/fonts.css'
+import '../assets/css/marked.css'
 
-  //import {main} from '../assets/js/main.js'
-  //import {star} from '../assets/js/star.js'
+// import {main} from '../assets/js/main.js'
+// import {star} from '../assets/js/star.js'
 
-  export default {
-    data () {
-      return {
-        data:'',
-        total:'',
-      }
-    },
-    methods:{
-      // BlogList:function(){
-      //   let _this = this;
-      //   _this.$axios({
-      //     method:'post',
-      //     url:'/api/ApiBlog/BlogList',
-      //   }).then(response=>{
-      //     let rst = response.data;
-      //     if (rst.STS=='OK'){
-      //       _this.data = rst.rows;
-      //     }else{
-      //       _this.$message.error(rst.errmsg);
-      //     }
-      //   }).catch(function(err){
-      //     console.log(err)
-      //   });
-      // }
-
-      AddClientIP:function(){
-          let _this = this;
-          _this.$axios({
-            method:'post',
-            url:'/api/ApiClient/AddClientIP',
-          }).then(res=>{
-            //不做任何提示
-          }).catch(function(err){
-            console.log(err)
-          });
-      }
-    },
-    mounted(){
-      this.AddClientIP();
-      document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
-      //this.BlogList();
-      // content-wrapper
-      var content = document.getElementById('id-content');
-      // side-menu
-      var sideMenu = document.getElementById('id-sideMenu');
-      // article-wrapper
-      var article = document.getElementById('id-article');
-      // menu-icon
-      var menuIcon = document.getElementById('id-menuIcon');
-      // top-bar
-      var topBar = document.getElementById('id-topBar');
-      var topTxt = document.getElementById('id-topTxt');
-      // back-top
-      var backTop = document.getElementById('id-backTop');
-      // mask
-      var mask = document.getElementById('id-mask');
-
-      var doc = document.documentElement || document.body;
-      var winH = window.innerHeight; // 页面高度
-
-      var mediaMark = 800; // 媒体查询基准值
-
-      window.addEventListener('scroll', function () {
-        var scrollTop = doc.scrollTop;
-        var top = article.offsetTop;
-        if (scrollTop > top) {
-          // 显示topBar
-          topBar.classList.add('opacity_1');
-          topTxt.classList.add('txt-show');
-        } else {
-          topBar.classList.remove('opacity_1');
-          topTxt.classList.remove('txt-show');
-        }
-        if (scrollTop > winH) {
-          backTop.classList.add('show');
-        } else {
-          backTop.classList.remove('show');
-        }
-      });
-
-      var mobileMenuIsShow = false;
-
-      // 切换菜单
-      menuIcon.addEventListener('click', function () {
-        var winW = window.innerWidth; // 页面宽度
-        // 是否为移动端
-        if (winW < mediaMark) {
-          if (mobileMenuIsShow) {
-            sideMenu.classList.remove('show');
-            mask.classList.remove('show');
-            mobileMenuIsShow = false;
-          } else {
-            sideMenu.classList.add('show');
-            mask.classList.add('show');
-            mobileMenuIsShow = true;
-          }
-          return;
-        }
-
-        content.classList.toggle('content_hidden');
-        sideMenu.classList.toggle('sideMenu_hidden');
-        topBar.classList.toggle('topBar_hidden');
-
-      });
-
-      // 浮层点击
-      mask.addEventListener('click', function () {
-        sideMenu.classList.remove('show');
-        mask.classList.remove('show');
-        mobileMenuIsShow = false;
-      });
-
-
-      // 返回顶部
-      backTop.addEventListener('click', function () {
-        smoothScroll();
-      });
-
-      function smoothScroll() {
-        var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-        if (currentScroll > 0) {
-          window.requestAnimationFrame(smoothScroll);
-          // 每次滚动到总高度的5/4处
-          window.scrollTo(0, currentScroll - (currentScroll / 5));
-        }
-      }
-
-      //星星动画-------------------------------------------------------------------------------------------
-      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-
-      var starDensity = .216;
-      var speedCoeff = .05;
-      var width;
-      var height;
-      var starCount;
-      var circleRadius;
-      var circleCenter;
-      var first = true;
-      var giantColor = '180,184,240';
-      var starColor = '226,225,142';
-      var cometColor = '226,225,224';
-      var canva = document.getElementById('universe');
-      var stars = [];
-
-      windowResizeHandler();
-      window.addEventListener('resize', windowResizeHandler, false);
-
-      createUniverse();
-      var universe;
-      function createUniverse() {
-        universe = canva.getContext('2d');
-        for (var i = 0; i < starCount; i++) {
-          stars[i] = new Star();
-          stars[i].reset();
-        }
-        draw();
-      }
-
-      function draw() {
-        universe.clearRect(0, 0, width, height);
-        var starsLength = stars.length;
-        for (var i = 0; i < starsLength; i++) {
-          var star = stars[i];
-          star.move();
-          star.fadeIn();
-          star.fadeOut();
-          star.draw();
-        }
-        window.requestAnimationFrame(draw);
-      }
-
-      function Star() {
-        this.reset = function () {
-          this.giant = getProbability(3);
-          this.comet = this.giant || first ? false : getProbability(10);
-          this.x = getRandInterval(0, width - 10);
-          this.y = getRandInterval(0, height);
-          this.r = getRandInterval(1.1, 2.6);
-          this.dx = getRandInterval(speedCoeff, 6 * speedCoeff) + (this.comet + 1 - 1) * speedCoeff * getRandInterval(50, 120) + speedCoeff * 2;
-          this.dy = -getRandInterval(speedCoeff, 6 * speedCoeff) - (this.comet + 1 - 1) * speedCoeff * getRandInterval(50, 120);
-          this.fadingOut = null;
-          this.fadingIn = true;
-          this.opacity = 0;
-          this.opacityTresh = getRandInterval(.2, 1 - (this.comet + 1 - 1) * .4);
-          this.do = getRandInterval(0.0005, 0.002) + (this.comet + 1 - 1) * .001;
-        };
-        this.fadeIn = function () {
-          if (this.fadingIn) {
-            this.fadingIn = this.opacity > this.opacityTresh ? false : true;
-            this.opacity += this.do;
-          }
-        };
-
-        this.fadeOut = function () {
-          if (this.fadingOut) {
-            this.fadingOut = this.opacity < 0 ? false : true;
-            this.opacity -= this.do / 2;
-            if (this.x > width || this.y < 0) {
-              this.fadingOut = false;
-              this.reset();
-            }
-          }
-        };
-
-        this.draw = function () {
-          universe.beginPath();
-          if (this.giant) {
-            universe.fillStyle = 'rgba(' + giantColor + ',' + this.opacity + ')';
-            universe.arc(this.x, this.y, 2, 0, 2 * Math.PI, false);
-          } else if (this.comet) {
-            universe.fillStyle = 'rgba(' + cometColor + ',' + this.opacity + ')';
-            universe.arc(this.x, this.y, 1.5, 0, 2 * Math.PI, false);
-            //comet tail
-            for (var i = 0; i < 30; i++) {
-              universe.fillStyle = 'rgba(' + cometColor + ',' + (this.opacity - (this.opacity / 20) * i) + ')';
-              universe.rect(this.x - this.dx / 4 * i, this.y - this.dy / 4 * i - 2, 2, 2);
-              universe.fill();
-            }
-          } else {
-            universe.fillStyle = 'rgba(' + starColor + ',' + this.opacity + ')';
-            universe.rect(this.x, this.y, this.r, this.r);
-          }
-
-          universe.closePath();
-          universe.fill();
-        };
-
-        this.move = function () {
-          this.x += this.dx;
-          this.y += this.dy;
-          if (this.fadingOut === false) {
-            this.reset();
-          }
-          if (this.x > width - (width / 4) || this.y < 0) {
-            this.fadingOut = true;
-          }
-        };
-        (function () {
-          setTimeout(function () {
-            first = false;
-          }, 50)
-        })()
-      }
-
-      function getProbability(percents) {
-        return ((Math.floor(Math.random() * 1000) + 1) < percents * 10);
-      }
-
-      function getRandInterval(min, max) {
-        return (Math.random() * (max - min) + min);
-      }
-
-      function windowResizeHandler() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        starCount = width * starDensity;
-        circleRadius = (width > height ? height / 2 : width / 2);
-        circleCenter = {
-          x: width / 2,
-          y: height / 2
-        }
-        canva.setAttribute('width', width);
-        canva.setAttribute('height', 270);
-      }
-      //星星动画-------------------------------------------------------------------------------------------
+export default {
+  data () {
+    return {
+      data: '',
+      total: ''
     }
+  },
+  methods: {
+    // BlogList:function(){
+    //   let _this = this;
+    //   _this.$axios({
+    //     method:'post',
+    //     url:'/api/ApiBlog/BlogList',
+    //   }).then(response=>{
+    //     let rst = response.data;
+    //     if (rst.STS=='OK'){
+    //       _this.data = rst.rows;
+    //     }else{
+    //       _this.$message.error(rst.errmsg);
+    //     }
+    //   }).catch(function(err){
+    //     console.log(err)
+    //   });
+    // }
+
+    AddClientIP: function () {
+      let _this = this
+      _this.$axios({
+        method: 'post',
+        url: '/api/ApiClient/AddClientIP'
+      }).then(res => {
+        // 不做任何提示
+      }).catch(function (err) {
+        console.log(err)
+      })
+    }
+  },
+  mounted () {
+    this.AddClientIP()
+    document.getElementById('firstActive').click() // 既触发了a标签的点击事件，又触发了页面跳转
+    // this.BlogList();
+    // content-wrapper
+    var content = document.getElementById('id-content')
+    // side-menu
+    var sideMenu = document.getElementById('id-sideMenu')
+    // article-wrapper
+    var article = document.getElementById('id-article')
+    // menu-icon
+    var menuIcon = document.getElementById('id-menuIcon')
+    // top-bar
+    var topBar = document.getElementById('id-topBar')
+    var topTxt = document.getElementById('id-topTxt')
+    // back-top
+    var backTop = document.getElementById('id-backTop')
+    // mask
+    var mask = document.getElementById('id-mask')
+
+    var doc = document.documentElement || document.body
+    var winH = window.innerHeight // 页面高度
+
+    var mediaMark = 800 // 媒体查询基准值
+
+    window.addEventListener('scroll', function () {
+      var scrollTop = doc.scrollTop
+      var top = article.offsetTop
+      if (scrollTop > top) {
+        // 显示topBar
+        topBar.classList.add('opacity_1')
+        topTxt.classList.add('txt-show')
+      } else {
+        topBar.classList.remove('opacity_1')
+        topTxt.classList.remove('txt-show')
+      }
+      if (scrollTop > winH) {
+        backTop.classList.add('show')
+      } else {
+        backTop.classList.remove('show')
+      }
+    })
+
+    var mobileMenuIsShow = false
+
+    // 切换菜单
+    menuIcon.addEventListener('click', function () {
+      var winW = window.innerWidth // 页面宽度
+      // 是否为移动端
+      if (winW < mediaMark) {
+        if (mobileMenuIsShow) {
+          sideMenu.classList.remove('show')
+          mask.classList.remove('show')
+          mobileMenuIsShow = false
+        } else {
+          sideMenu.classList.add('show')
+          mask.classList.add('show')
+          mobileMenuIsShow = true
+        }
+        return
+      }
+
+      content.classList.toggle('content_hidden')
+      sideMenu.classList.toggle('sideMenu_hidden')
+      topBar.classList.toggle('topBar_hidden')
+    })
+
+    // 浮层点击
+    mask.addEventListener('click', function () {
+      sideMenu.classList.remove('show')
+      mask.classList.remove('show')
+      mobileMenuIsShow = false
+    })
+
+    // 返回顶部
+    backTop.addEventListener('click', function () {
+      smoothScroll()
+    })
+
+    function smoothScroll () {
+      var currentScroll = document.documentElement.scrollTop || document.body.scrollTop
+      if (currentScroll > 0) {
+        window.requestAnimationFrame(smoothScroll)
+        // 每次滚动到总高度的5/4处
+        window.scrollTo(0, currentScroll - (currentScroll / 5))
+      }
+    }
+
+    // 星星动画-------------------------------------------------------------------------------------------
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
+
+    var starDensity = 0.216
+    var speedCoeff = 0.05
+    var width
+    var height
+    var starCount
+    var circleRadius
+    var circleCenter
+    var first = true
+    var giantColor = '180,184,240'
+    var starColor = '226,225,142'
+    var cometColor = '226,225,224'
+    var canva = document.getElementById('universe')
+    var stars = []
+
+    windowResizeHandler()
+    window.addEventListener('resize', windowResizeHandler, false)
+
+    createUniverse()
+    var universe
+    function createUniverse () {
+      universe = canva.getContext('2d')
+      for (var i = 0; i < starCount; i++) {
+        stars[i] = new Star()
+        stars[i].reset()
+      }
+      draw()
+    }
+
+    function draw () {
+      universe.clearRect(0, 0, width, height)
+      var starsLength = stars.length
+      for (var i = 0; i < starsLength; i++) {
+        var star = stars[i]
+        star.move()
+        star.fadeIn()
+        star.fadeOut()
+        star.draw()
+      }
+      window.requestAnimationFrame(draw)
+    }
+
+    function Star () {
+      this.reset = function () {
+        this.giant = getProbability(3)
+        this.comet = this.giant || first ? false : getProbability(10)
+        this.x = getRandInterval(0, width - 10)
+        this.y = getRandInterval(0, height)
+        this.r = getRandInterval(1.1, 2.6)
+        this.dx = getRandInterval(speedCoeff, 6 * speedCoeff) + (this.comet + 1 - 1) * speedCoeff * getRandInterval(50, 120) + speedCoeff * 2
+        this.dy = -getRandInterval(speedCoeff, 6 * speedCoeff) - (this.comet + 1 - 1) * speedCoeff * getRandInterval(50, 120)
+        this.fadingOut = null
+        this.fadingIn = true
+        this.opacity = 0
+        this.opacityTresh = getRandInterval(0.2, 1 - (this.comet + 1 - 1) * 0.4)
+        this.do = getRandInterval(0.0005, 0.002) + (this.comet + 1 - 1) * 0.001
+      }
+      this.fadeIn = function () {
+        if (this.fadingIn) {
+          this.fadingIn = !(this.opacity > this.opacityTresh)
+          this.opacity += this.do
+        }
+      }
+
+      this.fadeOut = function () {
+        if (this.fadingOut) {
+          this.fadingOut = !(this.opacity < 0)
+          this.opacity -= this.do / 2
+          if (this.x > width || this.y < 0) {
+            this.fadingOut = false
+            this.reset()
+          }
+        }
+      }
+
+      this.draw = function () {
+        universe.beginPath()
+        if (this.giant) {
+          universe.fillStyle = 'rgba(' + giantColor + ',' + this.opacity + ')'
+          universe.arc(this.x, this.y, 2, 0, 2 * Math.PI, false)
+        } else if (this.comet) {
+          universe.fillStyle = 'rgba(' + cometColor + ',' + this.opacity + ')'
+          universe.arc(this.x, this.y, 1.5, 0, 2 * Math.PI, false)
+          // comet tail
+          for (var i = 0; i < 30; i++) {
+            universe.fillStyle = 'rgba(' + cometColor + ',' + (this.opacity - (this.opacity / 20) * i) + ')'
+            universe.rect(this.x - this.dx / 4 * i, this.y - this.dy / 4 * i - 2, 2, 2)
+            universe.fill()
+          }
+        } else {
+          universe.fillStyle = 'rgba(' + starColor + ',' + this.opacity + ')'
+          universe.rect(this.x, this.y, this.r, this.r)
+        }
+
+        universe.closePath()
+        universe.fill()
+      }
+
+      this.move = function () {
+        this.x += this.dx
+        this.y += this.dy
+        if (this.fadingOut === false) {
+          this.reset()
+        }
+        if (this.x > width - (width / 4) || this.y < 0) {
+          this.fadingOut = true
+        }
+      };
+      (function () {
+        setTimeout(function () {
+          first = false
+        }, 50)
+      })()
+    }
+
+    function getProbability (percents) {
+      return ((Math.floor(Math.random() * 1000) + 1) < percents * 10)
+    }
+
+    function getRandInterval (min, max) {
+      return (Math.random() * (max - min) + min)
+    }
+
+    function windowResizeHandler () {
+      width = window.innerWidth
+      height = window.innerHeight
+      starCount = width * starDensity
+      circleRadius = (width > height ? height / 2 : width / 2)
+      circleCenter = {
+        x: width / 2,
+        y: height / 2
+      }
+      canva.setAttribute('width', width)
+      canva.setAttribute('height', 270)
+    }
+    // 星星动画-------------------------------------------------------------------------------------------
   }
+}
 </script>
 <!--<script src="../assets/js/main.js" type="text/javascript"></script>-->
 <!--<script src="../assets/js/star.js" type="text/javascript"></script>-->

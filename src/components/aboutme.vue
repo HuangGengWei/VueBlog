@@ -13,16 +13,16 @@
 </template>
 
 <script>
-  import '../assets/css/aboutme.css'
-  export default {
-    data () {
-      return {};
-    },
-    methods: {
+import '../assets/css/aboutme.css'
+export default {
+  data () {
+    return {}
+  },
+  methods: {
 
-    },
-    mounted() {
+  },
+  mounted () {
 
-    }
   }
+}
 </script>

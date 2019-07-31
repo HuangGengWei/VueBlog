@@ -136,241 +136,240 @@
   </div>
 </template>
 <script>
-  import { quillEditor } from 'vue-quill-editor'
-  export default {
-    data() {
-      return {
-        SearchArray:[{column:'title',text:'',conne:'AND'}],
-        //SearchArray:'',
-        column:'title',
-        text:'',
-        source: 0,
-        start_day:'',
-        end_day:'',
+import { quillEditor } from 'vue-quill-editor'
+export default {
+  data () {
+    return {
+      SearchArray: [{column: 'title', text: '', conne: 'AND'}],
+      // SearchArray:'',
+      column: 'title',
+      text: '',
+      source: 0,
+      start_day: '',
+      end_day: '',
 
-        BlogTable: [],
-        currentPage:1,
-        pageSize:10,
-        total:'',
-        ConfirmDeleDialog: false,
+      BlogTable: [],
+      currentPage: 1,
+      pageSize: 10,
+      total: '',
+      ConfirmDeleDialog: false,
 
-        SHOW_TABLE:true,
-        SHOW_EDIT:false,
+      SHOW_TABLE: true,
+      SHOW_EDIT: false,
 
-        //富文本编辑器
-        id:'',
-        title:'',
-        content: '<h2>正文</h2>',
-        editorOption: {
-          // something config
-        }
+      // 富文本编辑器
+      id: '',
+      title: '',
+      content: '<h2>正文</h2>',
+      editorOption: {
+        // something config
       }
+    }
+  },
+  methods: {
+    addSearchCondition () {
+      this.SearchArray.push({'conne': 'AND', 'column': 'title', 'text': ''})
     },
-    methods:{
-      addSearchCondition(){
-        this.SearchArray.push({"conne":"AND","column":"title","text":""});
-      },
-      removeSearchCondition(index){
-        this.SearchArray.splice(index, 1);
-      },
-      Search(){
-        this.currentPage=1;
-        this.pageSize=10;
-        this.ShowAllBlog();
-      },
-      RetSetSearch(){
-        this.column='title';
-        this.text='';
-        this.SearchArray=[{column:'title',text:'',conne:'AND'}];
-        this.start_day = '';
-        this.end_day = '';
-        this.currentPage=1;
-        this.pageSize=10;
-        this.ShowAllBlog();
-      },
-      //富文本
-      onEditorChange({ editor, html, text }) {
-        //console.log('editor change!', editor, html, text)
-        this.content = html
-      },
-      handleSizeChange: function (size) {
-        this.pageSize = size;
-        this.ShowAllBlog();
-      },
-      handleCurrentChange: function(currentPage){
-        this.currentPage = currentPage;
-        this.ShowAllBlog();
-      },
-      ShowAllBlog: function () {
-        let _this = this;
+    removeSearchCondition (index) {
+      this.SearchArray.splice(index, 1)
+    },
+    Search () {
+      this.currentPage = 1
+      this.pageSize = 10
+      this.ShowAllBlog()
+    },
+    RetSetSearch () {
+      this.column = 'title'
+      this.text = ''
+      this.SearchArray = [{column: 'title', text: '', conne: 'AND'}]
+      this.start_day = ''
+      this.end_day = ''
+      this.currentPage = 1
+      this.pageSize = 10
+      this.ShowAllBlog()
+    },
+    // 富文本
+    onEditorChange ({ editor, html, text }) {
+      // console.log('editor change!', editor, html, text)
+      this.content = html
+    },
+    handleSizeChange: function (size) {
+      this.pageSize = size
+      this.ShowAllBlog()
+    },
+    handleCurrentChange: function (currentPage) {
+      this.currentPage = currentPage
+      this.ShowAllBlog()
+    },
+    ShowAllBlog: function () {
+      let _this = this
 
-        //let filter = {};
-        let AndArray = [];//AND数组
-        let OrArray = [];//Or数组
+      // let filter = {};
+      let AndArray = []// AND数组
+      let OrArray = []// Or数组
 
-        //dev_stock_api_server的写法
-        // if (_this.column && _this.text!='') {
-        //   AndArray.push({"key":_this.column,"value":_this.text});
-        // }
-        // for (var i in _this.SearchArray) {
-        //   if (_this.SearchArray[i].conne=='AND' && _this.SearchArray[i].text!='') {
-        //     AndArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
-        //   }
-        //   if (_this.SearchArray[i].conne=='OR' && _this.SearchArray[i].text!='') {
-        //     OrArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
-        //   }     
-        // }
-        // if (AndArray.length>0){
-        //   filter['AND'] = AndArray;
-        // }
-        // if (OrArray.length>0){
-        //   filter['OR'] = OrArray;
-        // }
+      // dev_stock_api_server的写法
+      // if (_this.column && _this.text!='') {
+      //   AndArray.push({"key":_this.column,"value":_this.text});
+      // }
+      // for (var i in _this.SearchArray) {
+      //   if (_this.SearchArray[i].conne=='AND' && _this.SearchArray[i].text!='') {
+      //     AndArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
+      //   }
+      //   if (_this.SearchArray[i].conne=='OR' && _this.SearchArray[i].text!='') {
+      //     OrArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
+      //   }
+      // }
+      // if (AndArray.length>0){
+      //   filter['AND'] = AndArray;
+      // }
+      // if (OrArray.length>0){
+      //   filter['OR'] = OrArray;
+      // }
 
-        if (_this.SearchArray.length>0) {
-          for (var i in _this.SearchArray) {
-            if (_this.SearchArray[i].conne=='AND' && _this.SearchArray[i].text!='') {
-              AndArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
-            }
-            if (_this.SearchArray[i].conne=='OR' && _this.SearchArray[i].text!='') {
-              OrArray.push({"key":_this.SearchArray[i].column,"value":_this.SearchArray[i].text});
-            }
-
-            if (_this.SearchArray[i].text=='' && _this.column && _this.text!='') {
-              AndArray.push({"key":_this.column,"value":_this.text});
-            }
+      if (_this.SearchArray.length > 0) {
+        for (var i in _this.SearchArray) {
+          if (_this.SearchArray[i].conne === 'AND' && _this.SearchArray[i].text !== '') {
+            AndArray.push({'key': _this.SearchArray[i].column, 'value': _this.SearchArray[i].text})
           }
-        }else{
-          AndArray.push({"key":_this.column,"value":_this.text});
+          if (_this.SearchArray[i].conne === 'OR' && _this.SearchArray[i].text !== '') {
+            OrArray.push({'key': _this.SearchArray[i].column, 'value': _this.SearchArray[i].text})
+          }
+
+          if (_this.SearchArray[i].text === '' && _this.column && _this.text !== '') {
+            AndArray.push({'key': _this.column, 'value': _this.text})
+          }
         }
+      } else {
+        AndArray.push({'key': _this.column, 'value': _this.text})
+      }
 
+      this.$axios({
+        url: '/api/ApiBlog/ShowAllBlog',
+        method: 'post',
+        data: {
+          pageNumber: this.currentPage,
+          pageSize: this.pageSize,
+          And: AndArray,
+          Or: OrArray,
+          startDay: this.start_day,
+          endDay: this.end_day
+        }
+      }).then(res => {
+        let data = res.data
+        _this.BlogTable = data.rows
+        _this.total = data.total
+      }).catch(function (err) {
+        console.log(err)
+      })
+    },
+    ShowBlog: function (index, row) {
+      this.ClearInput()
+      this.ChangeShow()
 
-        this.$axios({
-          url:'/api/ApiBlog/ShowAllBlog',
-          method: 'post',
-          data:{
-            pageNumber:this.currentPage,
-            pageSize:this.pageSize,
-            And:AndArray,
-            Or:OrArray,
-            startDay:this.start_day,
-            endDay:this.end_day
-          }
-        }).then(res=>{
-          let data = res.data;
-          _this.BlogTable =data.rows;
-          _this.total = data.total;
-        }).catch(function(err){
-          console.log(err)
-        });
-      },
-      ShowBlog:function(index,row){
-        this.ClearInput();
-        this.ChangeShow();
+      let _this = this
+      _this.$axios({
+        method: 'post',
+        url: '/api/ApiBlog/Blog',
+        data: {
+          id: row._id
+        }
+      }).then(res => {
+        let rst = res.data
+        // console.log('ShowBlog',rst);
+        if (rst.STS === 'OK') {
+          _this.title = rst.row[0].title
+          _this.content = rst.row[0].content
+          _this.id = rst.row[0]._id
+        } else {
+          _this.$message.error(rst.errmsg)
+        }
+      }).catch(function (err) {
+        console.log(err)
+      })
 
-        let _this = this;
+      // console.log('row',row);
+      // this.title = row.title;
+      // this.content = row.content;
+      // this.id = row._id;
+    },
+    ChangeShow: function () {
+      this.SHOW_TABLE === true ? this.SHOW_TABLE = false : this.SHOW_TABLE = true
+      this.SHOW_EDIT === true ? this.SHOW_EDIT = false : this.SHOW_EDIT = true
+    },
+    ClearInput: function () {
+      this.title = ''
+      this.content = ''
+      this.id = ''
+    },
+    DeleteArticle: function (index, row) {
+      let _this = this
+      this.$confirm('确定要删除该博客内容吗？', '提示', {
+        comfirmButtonTest: '确定',
+        cancelButtonTest: '取消'
+      }).then(function () {
         _this.$axios({
-          method:'post',
-          url:'/api/ApiBlog/Blog',
-          data:{
-            id:row._id
+          method: 'post',
+          url: '/api/ApiBlog/DeleteBlog',
+          data: {
+            id: row._id
           }
-        }).then(res=>{
-          let rst = res.data;
-          //console.log('ShowBlog',rst);
-          if (rst.STS=='OK'){
-            _this.title = rst.row[0].title;
-            _this.content = rst.row[0].content;
-            _this.id = rst.row[0]._id;
-          }else{
-            _this.$message.error(rst.errmsg);
+        }).then(res => {
+          let rst = res.data
+          // console.log(rst);
+          if (rst.STS === 'OK') {
+            _this.$message({message: '删除成功', type: 'success'})
+            _this.ShowAllBlog()
+          } else {
+            _this.$message.error(rst.errmsg)
           }
-        }).catch(function(err){
-          console.log(err)
-        });
-
-        //console.log('row',row);
-        // this.title = row.title;
-        // this.content = row.content;
-        // this.id = row._id;
-      },
-      ChangeShow:function(){
-        this.SHOW_TABLE==true?this.SHOW_TABLE=false:this.SHOW_TABLE=true;
-        this.SHOW_EDIT==true?this.SHOW_EDIT=false:this.SHOW_EDIT=true;
-      },
-      ClearInput:function(){
-        this.title = '';
-        this.content = '';
-        this.id = '';
-      },
-      DeleteArticle: function (index, row) {
-        let _this = this;
-        this.$confirm('确定要删除该博客内容吗？', '提示', {
-          comfirmButtonTest: '确定',
-          cancelButtonTest: '取消'
-        }).then(function(){
-          _this.$axios({
-            method:'post',
-            url:'/api/ApiBlog/DeleteBlog',
-            data:{
-              id:row._id
-            }
-          }).then(res=>{
-            let rst = res.data;
-            //console.log(rst);
-            if (rst.STS=='OK'){
-              _this.$message({message: '删除成功',type: 'success'});
-              _this.ShowAllBlog();
-            }else{
-              _this.$message.error(rst.errmsg);
-            }
-          })
-        }).catch(function(){
-          _this.$message({message:'取消操作',type:'info'});
-        });
-      },
-      UpdateBlog:function(){
-        //console.log('content',this.content);
-        if (!this.title) {
-          this.$message.error('标题不能为空');
-        }
-        if (!this.content) {
-          this.$message.error('正文不能为空');
-        }
-        if (!this.id){
-          this.$message.error('ID不能为空');
-        }
-
-        if (this.title && this.content && this.id){
-          this.$axios({
-            method: 'post',
-            url: '/api/ApiBlog/UpdateBlog',
-            data:{
-              id:this.id,
-              title: this.title,
-              content: this.content,
-              source: this.source
-            }
-          }).then(response=>{
-            let rst = response.data;
-            //console.log(rst);
-            if (rst.STS=='OK'){
-              this.$message({message: '更新成功', type: 'success'});
-              this.ChangeShow();
-              this.ShowAllBlog();
-            }else{
-              this.$message.error(rst.errmsg);
-            }
-          }).catch(function(err){
-            console.log(err)
-          });
-        }
+        })
+      }).catch(function () {
+        _this.$message({message: '取消操作', type: 'info'})
+      })
+    },
+    UpdateBlog: function () {
+      // console.log('content',this.content);
+      if (!this.title) {
+        this.$message.error('标题不能为空')
       }
-    },
-    mounted(){
-      this.ShowAllBlog();
-    },
+      if (!this.content) {
+        this.$message.error('正文不能为空')
+      }
+      if (!this.id) {
+        this.$message.error('ID不能为空')
+      }
+
+      if (this.title && this.content && this.id) {
+        this.$axios({
+          method: 'post',
+          url: '/api/ApiBlog/UpdateBlog',
+          data: {
+            id: this.id,
+            title: this.title,
+            content: this.content,
+            source: this.source
+          }
+        }).then(response => {
+          let rst = response.data
+          // console.log(rst);
+          if (rst.STS === 'OK') {
+            this.$message({message: '更新成功', type: 'success'})
+            this.ChangeShow()
+            this.ShowAllBlog()
+          } else {
+            this.$message.error(rst.errmsg)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        })
+      }
+    }
+  },
+  mounted () {
+    this.ShowAllBlog()
   }
+}
 </script>
 <style>
   .content {
@@ -381,4 +380,3 @@
     color: #2c3e50;
   }
 </style>
-

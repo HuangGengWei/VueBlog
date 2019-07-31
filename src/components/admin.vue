@@ -301,66 +301,62 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'HelloWorld',
-    data () {
-      return {
-        msg: 'Welcome to Your Vue.js App'
-      }
-    },
-    methods:{
-      CheckLogin:function(){
-          this.$axios({
-            method: 'post',
-            url: '/api/ApiUser/CheckLogin',
-          }).then(response=>{
-            //交给axios返回拦截器处理
-          }).catch(function(err){
-            console.log(err)
-          });
-      },
-      SignOut:function(){
-        this.$axios({
-          method:'post',
-          url:'/api/ApiUser/LoginOut',
-        }).then(response=>{
-          let data = response.data;
-          if(data.STS=='OK'){
-            this.$router.push({path:'./login'});
-          }
-        }).catch(function (err) {
-          console.log(err);
-        })
-      }
-    },
-    mounted(){
-      this.CheckLogin();
-      document.getElementById("firstActive").click(); //既触发了a标签的点击事件，又触发了页面跳转
-      $(function (){
-        $('#nky li').click(function (){
-          //把之前已有的active去掉
-          $('.active').removeClass('active');
-          //当前点击的li加上class
-          $(this).addClass("active");
-        });
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods: {
+    CheckLogin: function () {
+      this.$axios({
+        method: 'post',
+        url: '/api/ApiUser/CheckLogin'
+      }).then(response => {
+        // 交给axios返回拦截器处理
+      }).catch(function (err) {
+        console.log(err)
       })
-
-      $(window).resize(function() {
-        //获取浏览器窗口高度
-        var winHeight=0;
-        if (window.innerHeight)
-          winHeight = window.innerHeight;
-        else if ((document.body) && (document.body.clientHeight))
-          winHeight = document.body.clientHeight;
-        //通过深入Document内部对body进行检测，获取浏览器窗口高度
-        if (document.documentElement && document.documentElement.clientHeight)
-          winHeight = document.documentElement.clientHeight;
-        //DIV高度为浏览器窗口的高度
-        document.getElementById("app").style.height= winHeight +"px";
-        //DIV高度为浏览器窗口高度的一半
-        //document.getElementById("app").style.height= winHeight/2 +"px";
-      });
     },
+    SignOut: function () {
+      this.$axios({
+        method: 'post',
+        url: '/api/ApiUser/LoginOut'
+      }).then(response => {
+        let data = response.data
+        if (data.STS === 'OK') {
+          this.$router.push({path: './login'})
+        }
+      }).catch(function (err) {
+        console.log(err)
+      })
+    }
+  },
+  mounted () {
+    this.CheckLogin()
+    document.getElementById('firstActive').click() // 既触发了a标签的点击事件，又触发了页面跳转
+    $(function () {
+      $('#nky li').click(function () {
+        // 把之前已有的active去掉
+        $('.active').removeClass('active')
+        // 当前点击的li加上class
+        $(this).addClass('active')
+      })
+    })
+
+    $(window).resize(function () {
+      // 获取浏览器窗口高度
+      var winHeight = 0
+      if (window.innerHeight) { winHeight = window.innerHeight } else if ((document.body) && (document.body.clientHeight)) { winHeight = document.body.clientHeight }
+      // 通过深入Document内部对body进行检测，获取浏览器窗口高度
+      if (document.documentElement && document.documentElement.clientHeight) { winHeight = document.documentElement.clientHeight }
+      // DIV高度为浏览器窗口的高度
+      document.getElementById('app').style.height = winHeight + 'px'
+      // DIV高度为浏览器窗口高度的一半
+      // document.getElementById("app").style.height= winHeight/2 +"px";
+    })
   }
+}
 
 </script>
