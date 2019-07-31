@@ -7,8 +7,8 @@
         <div class="article-content clearfix" v-for="(item,index) in data" v-bind:key="index">
             <h4 class="title">
               <router-link :to="{path:'/View',query:{id:item._id}}">{{item.title}}</router-link>
-              <div class="blue_tag" v-show="item.source==1">转载</div>
-              <div class="green_tag" v-show="item.source==2">原创</div>
+              <div class="blue_tag" v-show="item.source==2">转载</div>
+              <div class="green_tag" v-show="item.source==1">原创</div>
             </h4>
             <div class="time">
               <span class="txt">{{item.create_time}}</span>
