@@ -82,38 +82,40 @@ export default {
       if (this.name && this.password) {
         this.$axios({
           method: 'post',
-          // url: '/api/ApiUser/Login',
           url: '/api/ApiUser/getPublicKey'
         }).then(res => {
-          // console.log('返回数据',res);
-          let result = res.data
-          // 从后端获取的公钥 String
-          var publicPem = result
-          // 用JSEncrypt对密码进行加密
-          var encrypt = new JSEncrypt()
-          encrypt.setPublicKey(publicPem)
-
-          let encryptedPassword = encrypt.encrypt(this.password)
-          // console.log('前端加密后的密码',encryptedPassword);
-
-          this.$axios({
-            method: 'post',
-            url: '/api/ApiUser/Login',
-            data: {
-              name: this.name,
-              password: encryptedPassword
-            }
-          }).then(res => {
-            let rst = res.data
-            if (rst.STS == 'OK') {
-              this.$message({ message: '登陆成功', type: 'success' })
-              this.$router.push({path: './admin'})
-            } else {
-              this.$message.error(rst.errmsg)
-            }
-          })
+          console.log('res',res)
+          if(res.status==200){
+            // 从后端获取的公钥 String
+            var publicPem = res.data
+            // 用JSEncrypt对密码进行加密
+            var encrypt = new JSEncrypt()
+            encrypt.setPublicKey(publicPem)
+            let encryptedPassword = encrypt.encrypt(this.password)
+            console.log('前端加密后的密码',encryptedPassword);
+            this.$axios({
+              method: 'post',
+              url: '/api/ApiUser/Login',
+              data: {
+                name: this.name,
+                password: encryptedPassword
+              }
+            }).then(res => {
+              //console.log('登陆后的数据',res)
+              let rst = res.data;
+              if (rst.STS == 'OK') {
+                this.$message({ message: '登陆成功', type: 'success' })
+                this.$store.commit('mutationsChangeLoginStatus',true);
+                this.$router.push({path: './admin'})
+              } else {
+                this.$message.error('用户或密码错误')
+              }
+            })      
+          }else{
+            this.$message.error('获取公钥失败')
+          }
         }).catch(function (err) {
-          console.log(err)
+          //console.log(err)
         })
       }
     },
@@ -123,14 +125,14 @@ export default {
         method: 'post',
         url: '/api/ApiUser/CheckLogin'
       }).then(response => {
-        console.log(response)
+        //console.log(response)
         let data = response.data
         if (data.STS === 'OK') {
           this.$message({ message: '用户已登陆,为您跳转至管理主页', type: 'success' })
           this.$router.push({path: './admin'})
         }
       }).catch(function (err) {
-        console.log(err)
+        //console.log(err)
       })
     }
   },
@@ -147,8 +149,7 @@ export default {
           if (str.indexOf('login') >= 1) {
             _this.Login()
           }
-
-          break
+        break
       }
     }
   }

@@ -33,7 +33,6 @@
     height: 30px;
     line-height: 30px;
     text-align: center;
-
     border-radius: 10px;
     border: 1px solid #46799b;
     background: #e0eaf1;
@@ -42,12 +41,10 @@
   }
   .green_tag{
     float: right;
-
     width: 70px;
     height: 30px;
     line-height: 30px;
     text-align: center;
-
     border-radius: 10px;
     border: 1px solid #45872c;
     background: #e1f3da;
@@ -85,7 +82,7 @@ export default {
           _this.$message.error(rst.errmsg)
         }
       }).catch(function (err) {
-        console.log(err)
+        //console.log(err)
       })
     }
   },
@@ -114,7 +111,7 @@ export default {
         // 如果开启，在触发分页时，会自动对url追加：#!hash值={curr} 利用这个，可以在页面载入时就定位到指定页
         hash: false,
         // 页面加载后默认执行一次，然后当分页被切换时再次触发
-        callback: function (obj) {
+        callback: function (obj) {//点击分页器触发的函数
           // obj.curr：获取当前页码
           // obj.limit：获取每页显示数据条数
           // obj.isFirst：是否首次加载页面，一般用于初始加载的判断
@@ -122,7 +119,7 @@ export default {
           _this.pageNumber = obj.curr
           _this.pageSize = obj.limit
           _this.BlogList()
-
+          window.scrollTo(0,0)//滚动条滚动至顶部
           // 首次不执行
           if (!obj.isFirst) {
             // do something
@@ -133,7 +130,7 @@ export default {
       // 初始化分页器
       new Pagination(selector, pageOption)
     }).catch(function (err) {
-      console.log(err)
+      //console.log(err)
     })
 
     // let _this = this;

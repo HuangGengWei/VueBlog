@@ -63,16 +63,16 @@ export default {
   // 如果需要手动控制数据同步，父组件需要显式地处理changed事件
   methods: {
     onEditorBlur (editor) {
-      console.log('editor blur!', editor)
+      //console.log('editor blur!', editor)
     },
     onEditorFocus (editor) {
-      console.log('editor focus!', editor)
+      //console.log('editor focus!', editor)
     },
     onEditorReady (editor) {
-      console.log('editor ready!', editor)
+      //console.log('editor ready!', editor)
     },
     onEditorChange ({ editor, html, text }) {
-      console.log('editor change!', editor, html, text)
+      //console.log('editor change!', editor, html, text)
       this.content = html
     },
     addblog () {
@@ -102,7 +102,7 @@ export default {
             this.$message.error(rst.errmsg)
           }
         }).catch(function (err) {
-          console.log(err)
+          //console.log(err)
         })
       }
     }
@@ -116,7 +116,7 @@ export default {
   },
   mounted () {
     // you can use current editor object to do something(editor methods)
-    console.log('this is my editor', this.editor)
+    //console.log('this is my editor', this.editor)
     // this.editor to do something...
   }
 }

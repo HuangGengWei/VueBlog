@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     handleClose () {
-      console.log('close event')
+      //console.log('close event')
     }
   }
 }

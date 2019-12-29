@@ -155,7 +155,7 @@
                     <router-link to="/" class="btn btn-default btn-flat">前台</router-link>
                   </div>
                   <div class="pull-right">
-                    <a href="#" class="btn btn-default btn-flat" @click="SignOut">Sign out</a>
+                    <a href="#" class="btn btn-default btn-flat" @click="SignOut">Sign Out</a>
                   </div>
                 </li>
               </ul>
@@ -309,16 +309,6 @@ export default {
     }
   },
   methods: {
-    CheckLogin: function () {
-      this.$axios({
-        method: 'post',
-        url: '/api/ApiUser/CheckLogin'
-      }).then(response => {
-        // 交给axios返回拦截器处理
-      }).catch(function (err) {
-        console.log(err)
-      })
-    },
     SignOut: function () {
       this.$axios({
         method: 'post',
@@ -326,15 +316,15 @@ export default {
       }).then(response => {
         let data = response.data
         if (data.STS === 'OK') {
+          this.$store.commit('mutationsChangeLoginStatus',false);
           this.$router.push({path: './login'})
         }
       }).catch(function (err) {
-        console.log(err)
+        //console.log(err)
       })
     }
   },
   mounted () {
-    this.CheckLogin()
     document.getElementById('firstActive').click() // 既触发了a标签的点击事件，又触发了页面跳转
     $(function () {
       $('#nky li').click(function () {

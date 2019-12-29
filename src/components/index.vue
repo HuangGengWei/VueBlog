@@ -42,7 +42,8 @@
           <div id="id-menuIcon" class="menu-icon">
             <i class="icon-menu"></i>
           </div>
-          <router-link to="/admin"><div id="id-login">后台</div></router-link>
+          <!-- <router-link to="/admin"><div id="id-login">后台</div></router-link> -->
+          <div id="id-login" @click="GoToAdmin()">后台</div>
           <div id="id-topTxt" class="header-txt">博客首页</div>
         </div>
         <!--内容content-->
@@ -246,8 +247,27 @@ export default {
       }).then(res => {
         // 不做任何提示
       }).catch(function (err) {
-        console.log(err)
+        //console.log(err)
       })
+    },
+    // CheckLogin: function () {
+    //   this.$axios({
+    //     method: 'post',
+    //     url: '/api/ApiUser/CheckLogin'
+    //   }).then(response => {
+    //     // 交给axios返回拦截器处理
+    //   }).catch(function (err) {
+    //     //console.log(err)
+    //   })
+    // },
+    //根据vuex的值进行判断跳转到相应的页面
+    GoToAdmin: function(){
+      let hasLogin = this.$store.state.hasLogin
+      if(hasLogin){
+        this.$router.push({path:'/admin'})
+      } else {
+        this.$router.push({path:'/login'})
+      }
     }
   },
   mounted () {

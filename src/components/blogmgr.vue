@@ -260,7 +260,7 @@ export default {
         _this.BlogTable = data.rows
         _this.total = data.total
       }).catch(function (err) {
-        console.log(err)
+        //console.log(err)
       })
     },
     ShowBlog: function (index, row) {
@@ -285,7 +285,7 @@ export default {
           _this.$message.error(rst.errmsg)
         }
       }).catch(function (err) {
-        console.log(err)
+        //console.log(err)
       })
 
       // console.log('row',row);
@@ -361,7 +361,7 @@ export default {
             this.$message.error(rst.errmsg)
           }
         }).catch(function (err) {
-          console.log(err)
+          //console.log(err)
         })
       }
     }
