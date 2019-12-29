@@ -250,24 +250,21 @@ export default {
         //console.log(err)
       })
     },
-    // CheckLogin: function () {
-    //   this.$axios({
-    //     method: 'post',
-    //     url: '/api/ApiUser/CheckLogin'
-    //   }).then(response => {
-    //     // 交给axios返回拦截器处理
-    //   }).catch(function (err) {
-    //     //console.log(err)
-    //   })
-    // },
-    //根据vuex的值进行判断跳转到相应的页面
     GoToAdmin: function(){
-      let hasLogin = this.$store.state.hasLogin
-      if(hasLogin){
-        this.$router.push({path:'/admin'})
-      } else {
-        this.$router.push({path:'/login'})
-      }
+      //let hasLogin = this.$store.state.hasLogin
+      this.$axios({
+        method: 'post',
+        url: '/api/ApiUser/CheckLogin'
+      }).then(response => {
+        if(response.data.STS=='OK'){
+          this.$router.push({path:'/admin'})
+        } else {
+          this.$router.push({path:'/login'})
+        }
+      }).catch(function (err) {
+        //console.log(err)
+      })
+
     }
   },
   mounted () {

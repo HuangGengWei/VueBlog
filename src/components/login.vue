@@ -62,11 +62,10 @@
 //     increaseArea: '20%' // optional
 //   });
 // });
+
 export default {
-  name: 'HelloWorld',
   data () {
     return {
-      // msg: 'Welcome to Your Vue.js App',
       name: '',
       password: ''
     }
@@ -84,7 +83,6 @@ export default {
           method: 'post',
           url: '/api/ApiUser/getPublicKey'
         }).then(res => {
-          console.log('res',res)
           if(res.status==200){
             // 从后端获取的公钥 String
             var publicPem = res.data
@@ -92,7 +90,6 @@ export default {
             var encrypt = new JSEncrypt()
             encrypt.setPublicKey(publicPem)
             let encryptedPassword = encrypt.encrypt(this.password)
-            console.log('前端加密后的密码',encryptedPassword);
             this.$axios({
               method: 'post',
               url: '/api/ApiUser/Login',
@@ -101,11 +98,10 @@ export default {
                 password: encryptedPassword
               }
             }).then(res => {
-              //console.log('登陆后的数据',res)
               let rst = res.data;
               if (rst.STS == 'OK') {
                 this.$message({ message: '登陆成功', type: 'success' })
-                this.$store.commit('mutationsChangeLoginStatus',true);
+                //this.$store.commit("ChangeLoginStatus",true);
                 this.$router.push({path: './admin'})
               } else {
                 this.$message.error('用户或密码错误')
@@ -120,24 +116,24 @@ export default {
       }
     },
     // 进入登录页面立刻检查一次是否是已登录状态
-    checkLogin: function () {
-      this.$axios({
-        method: 'post',
-        url: '/api/ApiUser/CheckLogin'
-      }).then(response => {
-        //console.log(response)
-        let data = response.data
-        if (data.STS === 'OK') {
-          this.$message({ message: '用户已登陆,为您跳转至管理主页', type: 'success' })
-          this.$router.push({path: './admin'})
-        }
-      }).catch(function (err) {
-        //console.log(err)
-      })
-    }
+    // checkLogin: function () {
+    //   this.$axios({
+    //     method: 'post',
+    //     url: '/api/ApiUser/CheckLogin'
+    //   }).then(response => {
+    //     //console.log(response)
+    //     let data = response.data
+    //     if (data.STS === 'OK') {
+    //       this.$message({ message: '用户已登陆,为您跳转至管理主页', type: 'success' })
+    //       this.$router.push({path: './admin'})
+    //     }
+    //   }).catch(function (err) {
+    //     //console.log(err)
+    //   })
+    // }
   },
   mounted () {
-    this.checkLogin()
+    // this.checkLogin()
     // keydown事件
     let _this = this
     document.onkeydown = function (event) {
