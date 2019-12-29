@@ -277,26 +277,31 @@ export default {
       })
     },
     UpdateBlog: function () {
+      let URL = '/api/ApiBlog/AddBlog';
+      let param = {
+        title: this.title,
+        content: this.content,
+        source: this.source
+      }
+      if(this.SHOW_WHAT_DIV=='EDIT'){
+        URL = '/api/ApiBlog/UpdateBlog';
+        if (!this.id) {
+          this.$message.error('ID不能为空')
+        }
+        param.id = this.id;
+      }
       if (!this.title) {
         this.$message.error('标题不能为空')
       }
       if (!this.content) {
         this.$message.error('正文不能为空')
       }
-      if (!this.id) {
-        this.$message.error('ID不能为空')
-      }
 
-      if (this.title && this.content && this.id) {
+      //if (this.title && this.content && (this.id && this.SHOW_WHAT_DIV=='EDIT')) {
         this.$axios({
           method: 'post',
-          url: '/api/ApiBlog/UpdateBlog',
-          data: {
-            id: this.id,
-            title: this.title,
-            content: this.content,
-            source: this.source
-          }
+          url: URL,
+          data: param
         }).then(response => {
           let rst = response.data
           if (rst.STS === 'OK') {
@@ -310,7 +315,7 @@ export default {
         }).catch(function (err) {
           //console.log(err)
         })
-      }
+      //}
     },
     ClearInput: function () {
       this.title = ''
