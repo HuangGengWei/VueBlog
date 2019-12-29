@@ -53,13 +53,19 @@ axios.interceptors.response.use(function (response) {
 
 Vue.prototype.$axios = axios;
 
-import  VueQuillEditor from 'vue-quill-editor'
+//import  VueQuillEditor from 'vue-quill-editor'
 // require styles 引入样式
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+//import 'quill/dist/quill.core.css'
+//import 'quill/dist/quill.snow.css'
+//import 'quill/dist/quill.bubble.css'
 
-Vue.use(VueQuillEditor)
+//Vue.use(VueQuillEditor)
+
+// import with ES6
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
 
 // 导入 vue-resource，并使用
 import VueResource from 'vue-resource'

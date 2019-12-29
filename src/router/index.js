@@ -9,16 +9,10 @@ const admin = r => require.ensure([], () => r(require('@/components/admin')), 'a
 // import blogmgr from '@/components/blogmgr'
 const blogmgr = r => require.ensure([], () => r(require('@/components/blogmgr')), 'blogmgr')
 
-// import addblog from '@/components/addblog'
-const addblog = r => require.ensure([], () => r(require('@/components/addblog')), 'addblog')
-
 // import login from '@/components/login'
 const login = r => require.ensure([], () => r(require('@/components/login')), 'login')
 
-// import profile from '@/components/profile'
-const profile = r => require.ensure([], () => r(require('@/components/profile')), 'profile')
 // const index = r => require.ensure([],()=>r(require('@/components/index')),'index')
-
 // import view from '@/components/view'
 const view = r => require.ensure([], () => r(require('@/components/view')), 'view')
 
@@ -39,9 +33,7 @@ export default new Router({
       name: 'admin',
       component: admin,
       children: [
-        { path: '/blogmgr', component: blogmgr },
-        { path: '/addblog', component: addblog },
-        { path: '/profile', component: profile }
+        { path: '/blogmgr', component: blogmgr }
       ]
     },
     {

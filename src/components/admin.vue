@@ -199,8 +199,8 @@
           <li class="header">HEADER</li>
            <!--Optionally, you can add icons to the links-->
           <li class="active"><router-link to="/blogmgr" id="firstActive"><i class="fa fa-list"></i> <span>管理博客</span></router-link></li>
-          <li><router-link to="/addblog"><i class="fa fa-file-text-o"></i> <span>发布博客</span></router-link></li>
-          <li><router-link to="/profile"><i class="fa fa-user"></i><span>个人资料</span></router-link></li>
+          <!-- <li><router-link to="/addblog"><i class="fa fa-file-text-o"></i> <span>发布博客</span></router-link></li> -->
+          <!-- <li><router-link to="/profile"><i class="fa fa-user"></i><span>个人资料</span></router-link></li> -->
         </ul>
         <!-- /.sidebar-menu -->
       </section>
