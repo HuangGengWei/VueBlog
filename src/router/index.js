@@ -45,11 +45,28 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index,
+      meta:{index:0},
       children: [
-        {path: '/bloglist', component: bloglist},
-        {path: '/view', component: view},
-        {path: '/image', component: image},
-        {path: '/aboutme', component: aboutme}
+        {
+          path: '/bloglist', 
+          component: bloglist,
+          meta:{index:1}
+        },
+        {
+          path: '/view', 
+          component: view,
+          meta:{index:2}
+        },
+        {
+          path: '/image', 
+          component: image,
+          meta:{index:1}
+        },
+        {
+          path: '/aboutme', 
+          component: aboutme,
+          meta:{index:1}
+        }
       ]
     }
 

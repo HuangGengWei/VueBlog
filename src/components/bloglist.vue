@@ -19,7 +19,7 @@
           <ol class="pagination" id="pagelist"></ol>
         </div>
       </div>
-    </div>
+  </div>
 </template>
 <style>
   .clearfix{
@@ -51,6 +51,32 @@
     color: #45872c;
     cursor: pointer;
   }
+  .bg_box{
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			z-index: 50;
+  }
+  .ball-pulse{
+    width: 100px;
+    line-height: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 25px;
+    position:fixed;
+    left:50%;
+    top:50%;
+    margin-top:-30px;
+    margin-left:-25px;
+    z-index: 51;
+  }
+  .ball-pulse > div {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
 </style>
 <script>
 import { Pagination } from 'csdwheels'
@@ -132,8 +158,6 @@ export default {
     }).catch(function (err) {
       //console.log(err)
     })
-
-    // let _this = this;
   }
 }
 </script>

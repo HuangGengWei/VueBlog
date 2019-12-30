@@ -11,7 +11,7 @@
         </div>
         <div class="article-content">
           <!-- <div class="desc views" id="content_view"></div> -->
-          <vue-markdown :source="content"></vue-markdown>
+          <vue-markdown v-highlight :source="content"></vue-markdown>
         </div>
         <div class="article-info clearfix">
           <div class="icon">
@@ -82,8 +82,16 @@
 import '../assets/css/myemojiPl.css'
 
 import VueMarkdown from 'vue-markdown'
-// import hljs from 'highlight.js'
-// import 'highlight.js/styles/googlecode.css'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/googlecode.css'
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
+})
+// import hljs from 'highlight.js/lib/highlight';
+// import 'highlight.js/styles/github.css';
 
 export default {
   data () {

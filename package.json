@@ -24,6 +24,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "font-awesome": "^4.7.0",
+    "highlight.js": "^9.17.1",
     "jquery": "^3.3.1",
     "mavon-editor": "^2.7.7",
     "moment": "^2.22.2",
