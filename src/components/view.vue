@@ -10,8 +10,9 @@
           </div>
         </div>
         <div class="article-content">
-          <!-- <div class="desc views" id="content_view"></div> -->
-          <vue-markdown v-highlight :source="content"></vue-markdown>
+          <!-- <div v-highlight class="desc views" id="content_view"></div> -->
+          <!-- <vue-markdown v-highlight :source="content"></vue-markdown> -->
+          <code class="xml" v-html="content"></code>
         </div>
         <div class="article-info clearfix">
           <div class="icon">
@@ -79,19 +80,26 @@
   </div>
 </template>
 <script>
-import '../assets/css/myemojiPl.css'
+//-------------------------评论区表情
+// import '../assets/css/myemojiPl.css'
 
-import VueMarkdown from 'vue-markdown'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/googlecode.css'
-Vue.directive('highlight',function (el) {
-  let blocks = el.querySelectorAll('pre code');
-  blocks.forEach((block)=>{
-    hljs.highlightBlock(block)
-  })
-})
-// import hljs from 'highlight.js/lib/highlight';
+
+//-------------------------highlight.js
+// import hljs from 'highlight.js'
+// import 'highlight.js/styles/googlecode.css'
 // import 'highlight.js/styles/github.css';
+
+//---------------------已移除VueMarkdown
+// import VueMarkdown from 'vue-markdown'
+// import "mavon-editor/dist/css/index.css";
+
+//封装成指令给VueMarkdown用
+// Vue.directive('highlight',function (el) {
+//   let blocks = el.querySelectorAll('pre code');
+//   blocks.forEach((block)=>{
+//     hljs.highlightBlock(block)
+//   })
+// })
 
 export default {
   data () {
@@ -104,7 +112,7 @@ export default {
     }
   },
   components:{
-    VueMarkdown
+    //VueMarkdown
   },
   methods: {
     Blog: function () {

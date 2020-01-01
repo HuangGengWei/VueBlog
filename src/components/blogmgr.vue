@@ -110,7 +110,27 @@
                       <input type="text" class="form-control" name="title" placeholder="标题" v-model="title">
                     </div>
                     <div class="form-group">
-                      <mavon-editor v-model="content" ref="md" @change="change" style="min-height: 600px"/>
+                      <!-- <mavon-editor v-model="content" ref="md" @change="change" style="min-height: 600px"/> -->
+                      <div class="quill-editor-example" style="min-height:600px">
+                       <!-- bidirectional data binding（双向数据绑定） -->
+                        <quill-editor v-model="content"
+                                      ref="myQuillEditor"
+                                      :options="editorOption"
+                                      @blur="onEditorBlur($event)"
+                                      @focus="onEditorFocus($event)"
+                                      @ready="onEditorReady($event)">
+                        </quill-editor>
+                        <!-- Or manually control the data synchronization（或手动控制数据流） -->
+                        <!-- <quill-editor :content="content"
+                                      :options="editorOption"
+                                      @change="onEditorChange($event)">
+                        </quill-editor> -->
+                        <div class="quill-code">
+                          <div class="title">Code</div>
+                          <code class="xml" v-html="content"></code>
+                        </div>
+                      </div>
+ 
                     </div>
                     <!--原创or转载-->
                     <!-- <el-radio v-model="source" label="1">原创</el-radio> -->
@@ -129,6 +149,15 @@
   </div>
 </template>
 <script>
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+import 'highlight.js/styles/googlecode.css'
+// import 'highlight.js/styles/github.css';
+import hljs from 'highlight.js'
+import { quillEditor } from 'vue-quill-editor'
 export default {
   data () {
     return {
@@ -151,7 +180,27 @@ export default {
       id: '',
       title: '',
       content: '',
+
+
+      editorOption:{
+        modules: {
+          toolbar: [
+            [{ 'size': ['small', false, 'large'] }],
+            ['bold', 'italic'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            ['link', 'image']
+          ],
+          syntax: {
+            highlight: text => {
+                return hljs.highlightAuto(text).value; // 这里就是代码高亮需要配置的地方
+            }
+          }
+        }
+      }
     }
+  },
+  components: {
+    quillEditor
   },
   methods: {
     addSearchCondition () {
@@ -283,21 +332,25 @@ export default {
         content: this.content,
         source: this.source
       }
+      let errMsg = '';
       if(this.SHOW_WHAT_DIV=='EDIT'){
         URL = '/api/ApiBlog/UpdateBlog';
         if (!this.id) {
-          this.$message.error('ID不能为空')
+          //this.$message.error('ID不能为空')
+          errMsg = 'ID不能为空';
         }
         param.id = this.id;
       }
-      if (!this.title) {
-        this.$message.error('标题不能为空')
+      if (!param.title) {
+        //this.$message.error('标题不能为空')
+        errMsg = '标题不能为空';
       }
-      if (!this.content) {
-        this.$message.error('正文不能为空')
+      if (!param.content) {
+        //this.$message.error('正文不能为空')
+        errMsg = '正文不能为空';
       }
 
-      //if (this.title && this.content && (this.id && this.SHOW_WHAT_DIV=='EDIT')) {
+      if (errMsg=='') {
         this.$axios({
           method: 'post',
           url: URL,
@@ -315,7 +368,9 @@ export default {
         }).catch(function (err) {
           //console.log(err)
         })
-      //}
+      }else{
+        this.$message.error(errMsg)
+      }
     },
     ClearInput: function () {
       this.title = ''
@@ -340,4 +395,34 @@ export default {
     text-align: center;
     color: #2c3e50;
   }
+
+
+  .quill-editor,
+  .quill-code {
+    width: 50%;
+    float: left;
+  }
+  .quill-code {
+    height: auto;
+    border: none;
+  }
+  .quill-code .title {
+      border: 1px solid #ccc;
+      border-left: none;
+      height: 3em;
+      line-height: 3em;
+      text-indent: 1rem;
+      font-weight: bold;
+    }
+  .quill-code .code {
+      width: 100%;
+      margin: 0;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-top: none;
+      border-left: none;
+      border-radius: 0;
+      height: 30rem;
+      overflow-y: auto;
+    }
 </style>
