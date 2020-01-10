@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="article-content">
-          <!-- <div v-highlight class="desc views" id="content_view"></div> -->
+          <div class="desc views" id="content_view"></div>
           <!-- <vue-markdown v-highlight :source="content"></vue-markdown> -->
           <code class="xml" v-html="content"></code>
         </div>
@@ -129,7 +129,7 @@ export default {
         if (rst.STS === 'OK') {
           _this.title = rst.row[0].title
           _this.create_time = rst.row[0].create_time
-          //$('#content_view').html(rst.row[0].content).text()
+          $('#content_view').html(rst.row[0].content).text()
           _this.content=rst.row[0].content;
         } else {
           _this.$message.error(rst.errmsg)

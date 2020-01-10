@@ -198,6 +198,11 @@
         <div id="id-backTop" class="back-top">
           <i class="icon-arrow-up"></i>
         </div>
+
+        <!--返回文章列表-->
+        <div id="id-backLeft" class="back-left">
+          <i class="fa fa-chevron-left"></i>
+        </div>
       </div>
 
       <!--移动端全屏遮罩层-->
@@ -284,6 +289,8 @@ export default {
     var topTxt = document.getElementById('id-topTxt')
     // back-top
     var backTop = document.getElementById('id-backTop')
+    // back-left
+    var backLeft = document.getElementById('id-backLeft')
     // mask
     var mask = document.getElementById('id-mask')
 
@@ -305,8 +312,10 @@ export default {
       }
       if (scrollTop > winH) {
         backTop.classList.add('show')
+        backLeft.classList.add('show')
       } else {
         backTop.classList.remove('show')
+        backLeft.classList.remove('show')
       }
     })
 
@@ -332,6 +341,11 @@ export default {
       content.classList.toggle('content_hidden')
       sideMenu.classList.toggle('sideMenu_hidden')
       topBar.classList.toggle('topBar_hidden')
+    })
+
+    //点击返回菜单
+    backLeft.addEventListener('click', ()=>{
+      this.$router.push({name:'bloglist'})
     })
 
     // 浮层点击

@@ -31,6 +31,8 @@
     "node-mysql": "^0.4.2",
     "node-rsa": "^1.0.1",
     "q": "^1.5.1",
+    "quill-image-drop-module": "^1.0.3",
+    "quill-image-resize-module": "^3.0.0",
     "sha1": "^1.1.1",
     "vue": "^2.5.2",
     "vue-preview": "^1.1.3",

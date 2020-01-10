@@ -116,9 +116,9 @@
                         <quill-editor v-model="content"
                                       ref="myQuillEditor"
                                       :options="editorOption"
-                                      @blur="onEditorBlur($event)"
-                                      @focus="onEditorFocus($event)"
-                                      @ready="onEditorReady($event)">
+                                      @focus="onEditorFocus($event)">
+                                      <!-- @blur="onEditorBlur($event)"
+                                      @ready="onEditorReady($event)" -->
                         </quill-editor>
                         <!-- Or manually control the data synchronization（或手动控制数据流） -->
                         <!-- <quill-editor :content="content"
@@ -127,7 +127,7 @@
                         </quill-editor> -->
                         <div class="quill-code">
                           <div class="title">Code</div>
-                          <code class="xml" v-html="content"></code>
+                          <!-- <code class="xml" v-html="content"></code> -->
                         </div>
                       </div>
  
@@ -158,6 +158,12 @@ import 'highlight.js/styles/googlecode.css'
 // import 'highlight.js/styles/github.css';
 import hljs from 'highlight.js'
 import { quillEditor } from 'vue-quill-editor'
+
+//图片调整大小
+import { ImageDrop } from 'quill-image-drop-module'
+import ImageResize from 'quill-image-resize-module'
+Quill.register('modules/imageDrop', ImageDrop)
+Quill.register('modules/imageResize', ImageResize)
 export default {
   data () {
     return {
@@ -185,15 +191,39 @@ export default {
       editorOption:{
         modules: {
           toolbar: [
-            [{ 'size': ['small', false, 'large'] }],
-            ['bold', 'italic'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            ['link', 'image']
+              ['bold', 'italic', 'underline', 'strike'],
+              ['blockquote', 'code-block'],
+              [{ 'header': 1 }, { 'header': 2 }],
+              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+              [{ 'script': 'sub' }, { 'script': 'super' }],
+              [{ 'indent': '-1' }, { 'indent': '+1' }],
+              [{ 'direction': 'rtl' }],
+              [{ 'size': ['small', false, 'large', 'huge'] }],
+              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+              [{ 'font': [] }],
+              [{ 'color': [] }, { 'background': [] }],
+              [{ 'align': [] }],
+              ['clean'],
+              ['link', 'image', 'video']
           ],
           syntax: {
             highlight: text => {
                 return hljs.highlightAuto(text).value; // 这里就是代码高亮需要配置的地方
             }
+          },
+          history: {
+              delay: 1000,
+              maxStack: 50,
+              userOnly: false
+          },
+          imageDrop: true,
+          imageResize: {
+            displayStyles: {
+              backgroundColor: 'black',
+              border: 'none',
+              color: 'white'
+            },
+            modules: [ 'Resize', 'DisplaySize', 'Toolbar' ]
           }
         }
       }
@@ -399,8 +429,9 @@ export default {
 
   .quill-editor,
   .quill-code {
-    width: 50%;
-    float: left;
+    height:550px;
+    /* width: 50%; */
+    /* float: left; */
   }
   .quill-code {
     height: auto;
@@ -414,7 +445,7 @@ export default {
       text-indent: 1rem;
       font-weight: bold;
     }
-  .quill-code .code {
+  .quill-code code {
       width: 100%;
       margin: 0;
       padding: 1rem;
