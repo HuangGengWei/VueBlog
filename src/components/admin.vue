@@ -316,11 +316,11 @@ export default {
       }).then(response => {
         let data = response.data
         if (data.STS === 'OK') {
-          //this.$store.commit('mutationsChangeLoginStatus',false);
+          // this.$store.commit('mutationsChangeLoginStatus',false);
           this.$router.push({path: './login'})
         }
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     }
   },

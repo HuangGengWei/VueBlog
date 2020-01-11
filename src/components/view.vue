@@ -80,20 +80,19 @@
   </div>
 </template>
 <script>
-//-------------------------评论区表情
+// -------------------------评论区表情
 // import '../assets/css/myemojiPl.css'
 
-
-//-------------------------highlight.js
+// -------------------------highlight.js
 // import hljs from 'highlight.js'
 // import 'highlight.js/styles/googlecode.css'
 // import 'highlight.js/styles/github.css';
 
-//---------------------已移除VueMarkdown
+// ---------------------已移除VueMarkdown
 // import VueMarkdown from 'vue-markdown'
 // import "mavon-editor/dist/css/index.css";
 
-//封装成指令给VueMarkdown用
+// 封装成指令给VueMarkdown用
 // Vue.directive('highlight',function (el) {
 //   let blocks = el.querySelectorAll('pre code');
 //   blocks.forEach((block)=>{
@@ -108,11 +107,11 @@ export default {
       title: '',
       create_time: '',
       comment: '',
-      content:''
+      content: ''
     }
   },
-  components:{
-    //VueMarkdown
+  components: {
+    // VueMarkdown
   },
   methods: {
     Blog: function () {
@@ -135,7 +134,7 @@ export default {
           _this.$message.error(rst.errmsg)
         }
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     },
     AddComment: function () {
@@ -182,7 +181,7 @@ export default {
           _this.$message.error(rst.errmsg)
         }
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     }
   },

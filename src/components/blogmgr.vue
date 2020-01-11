@@ -130,7 +130,7 @@
                           <!-- <code class="xml" v-html="content"></code> -->
                         </div>
                       </div>
- 
+
                     </div>
                     <!--原创or转载-->
                     <!-- <el-radio v-model="source" label="1">原创</el-radio> -->
@@ -159,7 +159,7 @@ import 'highlight.js/styles/googlecode.css'
 import hljs from 'highlight.js'
 import { quillEditor } from 'vue-quill-editor'
 
-//图片调整大小
+// 图片调整大小
 import { ImageDrop } from 'quill-image-drop-module'
 import ImageResize from 'quill-image-resize-module'
 Quill.register('modules/imageDrop', ImageDrop)
@@ -187,34 +187,33 @@ export default {
       title: '',
       content: '',
 
-
-      editorOption:{
+      editorOption: {
         modules: {
           toolbar: [
-              ['bold', 'italic', 'underline', 'strike'],
-              ['blockquote', 'code-block'],
-              [{ 'header': 1 }, { 'header': 2 }],
-              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-              [{ 'script': 'sub' }, { 'script': 'super' }],
-              [{ 'indent': '-1' }, { 'indent': '+1' }],
-              [{ 'direction': 'rtl' }],
-              [{ 'size': ['small', false, 'large', 'huge'] }],
-              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-              [{ 'font': [] }],
-              [{ 'color': [] }, { 'background': [] }],
-              [{ 'align': [] }],
-              ['clean'],
-              ['link', 'image', 'video']
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'font': [] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'align': [] }],
+            ['clean'],
+            ['link', 'image', 'video']
           ],
           syntax: {
             highlight: text => {
-                return hljs.highlightAuto(text).value; // 这里就是代码高亮需要配置的地方
+              return hljs.highlightAuto(text).value // 这里就是代码高亮需要配置的地方
             }
           },
           history: {
-              delay: 1000,
-              maxStack: 50,
-              userOnly: false
+            delay: 1000,
+            maxStack: 50,
+            userOnly: false
           },
           imageDrop: true,
           imageResize: {
@@ -254,7 +253,7 @@ export default {
       this.pageSize = 10
       this.ShowAllBlog()
     },
-    //分页器
+    // 分页器
     handleSizeChange: function (size) {
       this.pageSize = size
       this.ShowAllBlog()
@@ -302,10 +301,10 @@ export default {
         _this.BlogTable = data.rows
         _this.total = data.total
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     },
-    //展示待编辑的博客
+    // 展示待编辑的博客
     ShowBlog: function (index, row) {
       let _this = this
       _this.$axios({
@@ -317,7 +316,7 @@ export default {
       }).then(res => {
         let rst = res.data
         if (rst.STS === 'OK') {
-          _this.SHOW_WHAT_DIV='EDIT';
+          _this.SHOW_WHAT_DIV = 'EDIT'
           _this.ClearInput()
           _this.title = rst.row[0].title
           _this.content = rst.row[0].content
@@ -326,7 +325,7 @@ export default {
           _this.$message.error(rst.errmsg)
         }
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     },
     DeleteArticle: function (index, row) {
@@ -356,31 +355,31 @@ export default {
       })
     },
     UpdateBlog: function () {
-      let URL = '/api/ApiBlog/AddBlog';
+      let URL = '/api/ApiBlog/AddBlog'
       let param = {
         title: this.title,
         content: this.content,
         source: this.source
       }
-      let errMsg = '';
-      if(this.SHOW_WHAT_DIV=='EDIT'){
-        URL = '/api/ApiBlog/UpdateBlog';
+      let errMsg = ''
+      if (this.SHOW_WHAT_DIV === 'EDIT') {
+        URL = '/api/ApiBlog/UpdateBlog'
         if (!this.id) {
-          //this.$message.error('ID不能为空')
-          errMsg = 'ID不能为空';
+          // this.$message.error('ID不能为空')
+          errMsg = 'ID不能为空'
         }
-        param.id = this.id;
+        param.id = this.id
       }
       if (!param.title) {
-        //this.$message.error('标题不能为空')
-        errMsg = '标题不能为空';
+        // this.$message.error('标题不能为空')
+        errMsg = '标题不能为空'
       }
       if (!param.content) {
-        //this.$message.error('正文不能为空')
-        errMsg = '正文不能为空';
+        // this.$message.error('正文不能为空')
+        errMsg = '正文不能为空'
       }
 
-      if (errMsg=='') {
+      if (errMsg === '') {
         this.$axios({
           method: 'post',
           url: URL,
@@ -389,16 +388,16 @@ export default {
           let rst = response.data
           if (rst.STS === 'OK') {
             this.$message({message: '更新成功', type: 'success'})
-            this.SHOW_WHAT_DIV='TABLE'
+            this.SHOW_WHAT_DIV = 'TABLE'
             this.ClearInput()
             this.ShowAllBlog()
           } else {
             this.$message.error(rst.errmsg)
           }
         }).catch(function (err) {
-          //console.log(err)
+          console.log(err)
         })
-      }else{
+      } else {
         this.$message.error(errMsg)
       }
     },
@@ -407,9 +406,9 @@ export default {
       this.content = ''
       this.id = ''
     },
-    GoToPublic:function(){
-      this.ClearInput();
-      this.SHOW_WHAT_DIV='ADD';
+    GoToPublic: function () {
+      this.ClearInput()
+      this.SHOW_WHAT_DIV = 'ADD'
     }
   },
   mounted () {
@@ -425,7 +424,6 @@ export default {
     text-align: center;
     color: #2c3e50;
   }
-
 
   .quill-editor,
   .quill-code {

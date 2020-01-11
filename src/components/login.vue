@@ -83,7 +83,7 @@ export default {
           method: 'post',
           url: '/api/ApiUser/getPublicKey'
         }).then(res => {
-          if(res.status==200){
+          if (res.status === 200) {
             // 从后端获取的公钥 String
             var publicPem = res.data
             // 用JSEncrypt对密码进行加密
@@ -98,23 +98,23 @@ export default {
                 password: encryptedPassword
               }
             }).then(res => {
-              let rst = res.data;
-              if (rst.STS == 'OK') {
+              let rst = res.data
+              if (rst.STS === 'OK') {
                 this.$message({ message: '登陆成功', type: 'success' })
-                //this.$store.commit("ChangeLoginStatus",true);
+                // this.$store.commit("ChangeLoginStatus",true);
                 this.$router.push({path: './admin'})
               } else {
                 this.$message.error('用户或密码错误')
               }
-            })      
-          }else{
+            })
+          } else {
             this.$message.error('获取公钥失败')
           }
         }).catch(function (err) {
-          //console.log(err)
+          console.log(err)
         })
       }
-    },
+    }
     // 进入登录页面立刻检查一次是否是已登录状态
     // checkLogin: function () {
     //   this.$axios({
@@ -138,14 +138,14 @@ export default {
     let _this = this
     document.onkeydown = function (event) {
       // console.log('event')
-      var e = event || window.event || arguments.callee.caller.arguments[0]
+      var e = event || window.event || this.arguments.callee.caller.arguments[0]
       switch (e && e.keyCode) {
         case 13:
           let str = event['path'][0]['baseURI']
           if (str.indexOf('login') >= 1) {
             _this.Login()
           }
-        break
+          break
       }
     }
   }

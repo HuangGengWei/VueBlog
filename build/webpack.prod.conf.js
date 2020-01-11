@@ -11,6 +11,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+// const DefinePlugin = require('webpack/lib/DefinePlugin')//Paralle Uglify Plugin 会开启多个子进程，将对多个文件的压缩工作分配给多个子进程去完成
+// const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin')
+
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
@@ -36,8 +39,18 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     new UglifyJsPlugin({
       uglifyOptions: {
+        output: {
+          comments: false,
+          beautify: false,
+        },
         compress: {
-          warnings: false
+          warnings: false ,
+          //删除所有的 console 、语句 ，可以兼容 IE 浏览器
+          drop_console: true , 
+          //内嵌己定义但是只用到一次的变量
+          collapse_vars : true ,
+          //提取出出现多次但是没有定义成变量去引用的静态值
+          reduce_vars: true
         }
       },
       sourceMap: config.build.productionSourceMap,
@@ -120,7 +133,30 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+
+    // //使用 ParallelUglifyPlugin 并行压缩输出的JavaScript代码
+    // new ParallelUglifyPlugin ({ 
+    //   //传递给UglifyJS 的参数
+    //   uglifyJS: {
+    //     output : { 
+    //       //最紧凑的输出
+    //       beautify: false , 
+    //       //删除所有注释
+    //       comments: false ,
+    //     },          
+    //     //在UglifyJS 删除没有用到的代码时不输出警告
+    //     warnings : false, 
+    //     compress: { 
+    //       //删除所有的 console 、语句 ，可以兼容 IE 浏览器
+    //       drop_console: true , 
+    //       //内嵌己定义但是只用到一次的变量
+    //       collapse_vars : true ,
+    //       //提取出出现多次但是没有定义成变量去引用的静态值
+    //       reduce_vars: true
+    //     }
+    //   }
+    // }),
   ]
 })
 

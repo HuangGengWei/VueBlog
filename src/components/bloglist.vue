@@ -53,13 +53,13 @@
     cursor: pointer;
   }
   .bg_box{
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.5);
-			position: fixed;
-			left: 0px;
-			top: 0px;
-			z-index: 50;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 50;
   }
   .ball-pulse{
     width: 100px;
@@ -85,9 +85,9 @@ export default {
   data () {
     return {
       data: '',
-      //pageNumber: 1,
-      pageSize: 10,
-      //total: ''
+      // pageNumber: 1,
+      pageSize: 10
+      // total: ''
     }
   },
   methods: {
@@ -97,31 +97,31 @@ export default {
         method: 'post',
         url: '/api/ApiBlog/BlogList',
         data: {
-          //pageNumber: _this.pageNumber,
+          // pageNumber: _this.pageNumber,
           pageNumber: _this.$store.state.curr,
           pageSize: _this.pageSize
         }
       }).then(res => {
         let rst = res.data
-        if (rst.STS == 'OK') {
+        if (rst.STS === 'OK') {
           _this.data = rst.rows
           _this.total = rst.total
         } else {
           _this.$message.error(rst.errmsg)
         }
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     },
-    InitPagination:function(){
+    InitPagination: function () {
       let _this = this
       _this.$axios({
         method: 'post',
         url: '/api/ApiBlog/BlogTotal'
       }).then(res => {
-        //_this.total = res.data.total;
-        //console.log('curr',this.$store.state.curr)
-        let _this = this;
+        // _this.total = res.data.total;
+        // console.log('curr',this.$store.state.curr)
+        let _this = this
         // 分页元素ID（必填）
         var selector = '#pagelist'
         // 分页配置
@@ -129,8 +129,8 @@ export default {
           // 每页显示数据条数（必填）
           limit: 10,
           // 数据总数（一般通过后端获取，必填）
-          //count: _this.total,
-          count:res.data.total,
+          // count: _this.total,
+          count: res.data.total,
           // 当前页码（选填，默认为1）
           curr: this.$store.state.curr,
           // 是否显示省略号（选填，默认显示）
@@ -141,16 +141,16 @@ export default {
           // 如果开启，在触发分页时，会自动对url追加：#!hash值={curr} 利用这个，可以在页面载入时就定位到指定页
           hash: false,
           // 页面加载后默认执行一次，然后当分页被切换时再次触发
-          callback: function (obj) {//点击分页器触发的函数
+          callback: function (obj) { // 点击分页器触发的函数
             // obj.curr：获取当前页码
             // obj.limit：获取每页显示数据条数
             // obj.isFirst：是否首次加载页面，一般用于初始加载的判断
-            //console.log('分页',obj);
+            // console.log('分页',obj);
             // _this.pageNumber = obj.curr
-            _this.$store.commit('SaveCurr',obj.curr)
-            _this.pageSize = obj.limit;
+            _this.$store.commit('SaveCurr', obj.curr)
+            _this.pageSize = obj.limit
             _this.BlogList()
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0)
             // 首次不执行
             if (!obj.isFirst) {
               // do something
@@ -161,13 +161,13 @@ export default {
         // 初始化分页器
         new Pagination(selector, pageOption)
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     },
-    GoToView:function(id){
-      this.$store.commit('SavePosition',document.documentElement.scrollTop)
+    GoToView: function (id) {
+      this.$store.commit('SavePosition', document.documentElement.scrollTop)
       // console.log('保存滚动条位置',this.$store.state.position)
-      this.$router.push({path:'/View',query:{id:id}})
+      this.$router.push({path: '/View', query: {id: id}})
     }
   },
   mounted () {

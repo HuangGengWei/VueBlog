@@ -252,24 +252,23 @@ export default {
       }).then(res => {
         // 不做任何提示
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
     },
-    GoToAdmin: function(){
-      //let hasLogin = this.$store.state.hasLogin
+    GoToAdmin: function () {
+      // let hasLogin = this.$store.state.hasLogin
       this.$axios({
         method: 'post',
         url: '/api/ApiUser/CheckLogin'
       }).then(response => {
-        if(response.data.STS=='OK'){
-          this.$router.push({path:'/admin'})
+        if (response.data.STS === 'OK') {
+          this.$router.push({path: '/admin'})
         } else {
-          this.$router.push({path:'/login'})
+          this.$router.push({path: '/login'})
         }
       }).catch(function (err) {
-        //console.log(err)
+        console.log(err)
       })
-
     }
   },
   mounted () {
@@ -343,9 +342,9 @@ export default {
       topBar.classList.toggle('topBar_hidden')
     })
 
-    //点击返回菜单
-    backLeft.addEventListener('click', ()=>{
-      this.$router.push({name:'bloglist'})
+    // 点击返回菜单
+    backLeft.addEventListener('click', () => {
+      this.$router.push({name: 'bloglist'})
     })
 
     // 浮层点击

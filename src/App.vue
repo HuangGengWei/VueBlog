@@ -12,7 +12,7 @@ export default {
   data: () => ({
     include: []
   }),
-  watch: {//使用watch 监听$router的变化
+  watch: {// 使用watch 监听$router的变化
     // $route(to, from) {
     //   //如果to索引大于from索引,判断为前进状态,反之则为后退状态
     //   console.log('to.meta.index',to.meta.index,'from.meta.index',from.meta.index)

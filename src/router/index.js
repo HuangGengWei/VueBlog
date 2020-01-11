@@ -32,53 +32,53 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: admin,
-      meta:{ index: 0 },
+      meta: { index: 0 },
       children: [
-        { 
+        {
           path: '/blogmgr',
-          name:'blogmgr',
+          name: 'blogmgr',
           component: blogmgr,
-          meta:{ index:1 }
+          meta: { index: 1 }
         }
       ]
     },
     {
       path: '/login',
       name: 'login',
-      meta:{ index: 0 },
+      meta: { index: 0 },
       component: login
     },
     {
       path: '/',
       name: 'index',
       component: index,
-      meta:{ index:0},
+      meta: { index: 0 },
       children: [
         {
           path: '/bloglist',
-          name:'bloglist',
+          name: 'bloglist',
           component: bloglist,
-          meta:{
-            index:1,
+          meta: {
+            index: 1
           }
         },
         {
           path: '/view',
-          name:'view',
+          name: 'view',
           component: view,
-          meta:{index:2}
+          meta: {index: 2}
         },
         {
           path: '/image',
-          name:'image',
+          name: 'image',
           component: image,
-          meta:{index:1}
+          meta: {index: 1}
         },
         {
           path: '/aboutme',
-          name:'aboutme',
+          name: 'aboutme',
           component: aboutme,
-          meta:{index:1}
+          meta: {index: 1}
         }
       ]
     }
