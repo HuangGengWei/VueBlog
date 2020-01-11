@@ -12,7 +12,7 @@
         <div class="article-content">
           <div class="desc views" id="content_view"></div>
           <!-- <vue-markdown v-highlight :source="content"></vue-markdown> -->
-          <code class="xml" v-html="content"></code>
+          <!-- <code class="xml" v-html="content"></code> -->
         </div>
         <div class="article-info clearfix">
           <div class="icon">
@@ -130,7 +130,7 @@ export default {
           _this.title = rst.row[0].title
           _this.create_time = rst.row[0].create_time
           $('#content_view').html(rst.row[0].content).text()
-          _this.content=rst.row[0].content;
+          // _this.content=rst.row[0].content;
         } else {
           _this.$message.error(rst.errmsg)
         }
