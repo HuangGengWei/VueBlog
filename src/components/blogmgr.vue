@@ -116,8 +116,9 @@
                         <quill-editor v-model="content"
                                       ref="myQuillEditor"
                                       :options="editorOption"
-                                      @focus="onEditorFocus($event)">
-                                      <!-- @blur="onEditorBlur($event)"
+                                      >
+                                      <!-- @focus="onEditorFocus($event)"
+                                      @blur="onEditorBlur($event)"
                                       @ready="onEditorReady($event)" -->
                         </quill-editor>
                         <!-- Or manually control the data synchronization（或手动控制数据流） -->
@@ -126,7 +127,7 @@
                                       @change="onEditorChange($event)">
                         </quill-editor> -->
                         <div class="quill-code">
-                          <div class="title">Code</div>
+                          <!-- <div class="title">Code</div> -->
                           <!-- <code class="xml" v-html="content"></code> -->
                         </div>
                       </div>
@@ -154,8 +155,8 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
-import 'highlight.js/styles/googlecode.css'
-// import 'highlight.js/styles/github.css';
+//import 'highlight.js/styles/googlecode.css'
+import 'highlight.js/styles/github.css';
 import hljs from 'highlight.js'
 import { quillEditor } from 'vue-quill-editor'
 
