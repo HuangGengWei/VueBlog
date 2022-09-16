@@ -16,7 +16,7 @@
     "axios": "^0.18.0",
     "babel-preset-es2015": "^6.24.1",
     "body-parser": "^1.18.3",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "cookie-parser": "^1.4.3",
     "csdwheels": "^1.2.8",
     "element-ui": "^2.4.4",
